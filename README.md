@@ -38,4 +38,4 @@
     数据库自动化系统
     
 ![image](https://github.com/dongjiashun/auto_dba/blob/master/image/title.gif)
-https://github.com/dongjiashun/auto_dba/blob/master/image/title.gif
+
