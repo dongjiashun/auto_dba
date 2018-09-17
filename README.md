@@ -48,7 +48,7 @@
     增删改都有备份，支持闪退 上篇。
 ![image](https://github.com/dongjiashun/auto_dba/blob/master/image/dml1.gif)
     增删改都有备份，支持闪退 下篇
-![image](https://github.com/dongjiashun/auto_dba/blob/master/image/dml1.gif)
+![image](https://github.com/dongjiashun/auto_dba/blob/master/image/dml2.gif)
 ### 数据表结构变更
 ![image](https://github.com/dongjiashun/auto_dba/blob/master/image/title.gif)
 ### 数据查询--支持navicate和MySqlWorkBench客户端操作命令
