@@ -37,5 +37,7 @@
     此项目目前不考虑开源，个人使用
     数据库自动化系统
     
+### 逻辑架构
+![image](https://github.com/dongjiashun/auto_dba/blob/master/image/%E5%9B%BE%E7%89%871.png)
 ![image](https://github.com/dongjiashun/auto_dba/blob/master/image/title.gif)
 
