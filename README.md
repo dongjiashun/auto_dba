@@ -36,4 +36,6 @@
     其他监控通过zabbix，或者其他系统报警来处理。
     此项目目前不考虑开源，个人使用
     数据库自动化系统
-    ![项目介绍]（https://github.com/auto_dba/image/title.gif）
+    
+![image](https://github.com/dongjiashun/auto_dba/blob/master/image/title.gif)
+https://github.com/dongjiashun/auto_dba/blob/master/image/title.gif
