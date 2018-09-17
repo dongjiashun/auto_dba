@@ -35,3 +35,5 @@
     (6)自动巡检：每隔一小时自动巡检所有数据库运行状态，发送DBA
     其他监控通过zabbix，或者其他系统报警来处理。
 此项目目前不考虑开源，个人使用
+    数据库自动化系统
+    ![image](https://github.com/dongjiashun/auto_dba/tree/master/image/dml上篇.gif)
