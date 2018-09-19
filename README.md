@@ -36,6 +36,20 @@
     其他监控通过zabbix，或者其他系统报警来处理。
     此项目目前不考虑开源，个人使用
     数据库自动化系统
-    
+### 整个流程DBA只需要审核，不需要做其他动作
+![image](https://github.com/dongjiashun/auto_dba/blob/master/image/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%81%E7%A8%8B.png)
+### 逻辑架构
+![image](https://github.com/dongjiashun/auto_dba/blob/master/image/%E5%9B%BE%E7%89%871.png)
+### 项目功能介绍
 ![image](https://github.com/dongjiashun/auto_dba/blob/master/image/title.gif)
-https://github.com/dongjiashun/auto_dba/blob/master/image/title.gif
+### 数据源权限控制
+![image](https://github.com/dongjiashun/auto_dba/blob/master/image/datasource.gif)
+### 数据变更操作
+    增删改都有备份，支持闪退 上篇。
+![image](https://github.com/dongjiashun/auto_dba/blob/master/image/dml1.gif)
+    增删改都有备份，支持闪退 下篇
+![image](https://github.com/dongjiashun/auto_dba/blob/master/image/dml2.gif)
+### 数据表结构变更
+![image](https://github.com/dongjiashun/auto_dba/blob/master/image/title.gif)
+### 数据查询--支持navicate和MySqlWorkBench客户端操作命令
+![image]()
