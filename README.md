@@ -21,7 +21,7 @@
     很多it人员对DBA不是很了解，这种我觉得作为DBA必须要hole住所有数据库风险问题，以及提早做出完全的准备，而不是写写文档，开开会
     涉及到运维的相关职业几乎很少涉及到业务；凡是设计到业务的运维，一般多少已经是管理岗位或者打酱油。所以，面对这个不为人知的岗位，
     以及被误解的风险，决定把所有DBA的操作都自动化。
-    分成两个系统
+    分成两个系统 名字没有想好 暂时就low点
     1.DBA日常操作系统:包含日常百分之90的工作，具体工作下面介绍
     2.DBA问题解决系统；
             (1)mycat可视化配置，自动化配置表分片规则
@@ -36,6 +36,11 @@
     其他监控通过zabbix，或者其他系统报警来处理。
     此项目目前不考虑开源，个人使用
     数据库自动化系统
+    很多对运维DBA的误解是不会开发，会开发的DBA误认为是开发DBA
+    其实我想说自己的想法，我的职业方向一只都是做运维DBA只不过，我要做自动化运维。
+    个人认为DBA一开始为开发服务，如果最基本的开发都不懂，优化更多领域的性能，只能停留在表面。基本的sql优化。。。每天的人肉的生活不是我想要的生活
+    。
+### 日常运维系统1
 ### 整个流程DBA只需要审核，不需要做其他动作
 ![image](https://github.com/dongjiashun/auto_dba/blob/master/image/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%81%E7%A8%8B.png)
 ### 逻辑架构
@@ -52,4 +57,8 @@
 ### 数据表结构变更
 ![image](https://github.com/dongjiashun/auto_dba/blob/master/image/title.gif)
 ### 数据查询--支持navicate和MySqlWorkBench客户端操作命令
-![image]()
+![image](https://github.com/dongjiashun/auto_dba/blob/master/image/select.png)
+
+###DBA问题解决系统-暂时自己在整理流程和各种问题处理方式。目前mycat可视化半自动配置已经完成
+![image](https://github.com/dongjiashun/auto_dba/blob/master/image/mycat.png)
+
