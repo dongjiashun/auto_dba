@@ -68,5 +68,5 @@
 ![image](https://github.com/dongjiashun/auto_dba/blob/master/image/select.png)
 
 ###DBA问题解决系统-暂时自己在整理流程和各种问题处理方式。目前mycat可视化半自动配置已经完成
-![image](https://github.com/dongjiashun/auto_dba/blob/master/image/mycat.png)
+![image](https://github.com/dongjiashun/auto_dba/blob/master/image/proplem1.png)
 
