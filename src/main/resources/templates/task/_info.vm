@@ -1,0 +1,40 @@
+<form class="form-horizontal">
+    #if($process.taskBiz.type != 'ds-apply' && $process.taskBiz.type != 'schema-apply' && $process.taskBiz.type != 'canal-apply')
+    <div class="form-group">
+        <label class="col-sm-2 text-right">标题:</label>
+        <div class="col-sm-9">$process.taskBiz.explain</div>
+    </div>
+    #end
+    <div class="form-group">
+        <label class="col-sm-2 text-right">申请人:</label>
+        <div class="col-sm-3">$process.taskBiz.startUser.nickname</div>
+        <label class="col-sm-2 text-right">状态:</label>
+        <div class="col-sm-4">
+            #if($process.taskBiz.status == "end")
+                已完成
+            #elseif($process.taskBiz.status == "cancel")
+                已取消
+            #else
+                <span class="label label-warning">处理中</span>
+            #end
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 0px">
+        <label class="col-sm-2 text-right">申请时间:</label>
+        <div class="col-sm-3">$!date.format($process.taskBiz.startTime)</div>
+        #if($process.taskBiz.endTime)
+            <label class="col-sm-2 text-right">结束时间:</label>
+            <div class="col-sm-4">$!date.format($process.taskBiz.endTime)</div>
+        #end
+    </div>
+</form>
+<hr>
+#if($process.currUsers.size() > 0)
+<p class="lead2">
+    当前处理人:
+    #foreach($userId in $process.currUsers)
+        <span class="label label-primary">$userId</span>
+    #end
+</p>
+<hr>
+#end

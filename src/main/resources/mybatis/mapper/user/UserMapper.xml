@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserMapper">
+    <resultMap id="UserMap" type="User">
+        <id property="id" column="id" />
+        <result property="username" column="username"/>
+        <result property="nickname" column="nickname"/>
+        <result property="email" column="email"/>
+        <result property="mobile" column="mobile"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+    </resultMap>
+
+    <sql id="fields">id, username, nickname, email, mobile, gmt_create, gmt_modified</sql>
+    <sql id="u_fields">u.id, u.username, u.nickname, u.email, u.mobile, u.gmt_create, u.gmt_modified</sql>
+
+    <select id="find" parameterType="int" resultMap="UserMap">
+        SELECT <include refid="fields"/> FROM user WHERE id= #{id}
+    </select>
+
+    <select id="findAll" parameterType="int" resultMap="UserMap">
+        SELECT <include refid="fields"/> FROM user ORDER BY username
+    </select>
+
+    <select id="findByUsername" parameterType="string" resultMap="UserMap">
+        SELECT <include refid="fields"/> FROM user WHERE username= #{username}
+    </select>
+    <select id="findByNickname" parameterType="string" resultMap="UserMap">
+        SELECT <include refid="fields"/> FROM user WHERE nickname= #{nickname}
+    </select>
+
+    <select id="findLikeUsername" parameterType="string" resultMap="UserMap">
+        SELECT <include refid="fields"/> FROM user WHERE username like #{username} ORDER BY username
+    </select>
+
+    <select id="findByEmail" parameterType="string" resultMap="UserMap">
+        SELECT <include refid="fields"/> FROM user WHERE email= #{email}
+    </select>
+
+    <select id="findByUsernames" parameterType="list" resultMap="UserMap">
+        SELECT <include refid="fields"/> FROM user
+        WHERE username in <foreach collection="list" item="item" open="(" separator="," close=")">#{item}</foreach>
+    </select>
+
+    <select id="findByRoleCode" parameterType="string" resultMap="UserMap">
+        SELECT <include refid="u_fields"/> FROM `user` u, role r, user_role ur
+        WHERE ur.user_id = u.id AND ur.role_id = r.id AND r.`code`=#{code}
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="UserMap">
+        SELECT <include refid="fields"/> FROM user
+        WHERE id in <foreach collection="list" item="item" open="(" separator="," close=")">#{item}</foreach>
+    </select>
+
+    <insert id="add" parameterType="User" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO user(username, nickname, email, mobile, gmt_create)
+        VALUES (#{username}, #{nickname}, #{email}, #{mobile}, #{gmtCreate})
+    </insert>
+
+    <insert id="addRoles" parameterType="map">
+        INSERT INTO user_role(user_id, role_id) VALUES
+        <foreach collection="roles" item="item" separator="," >
+            (#{userId}, #{item})
+        </foreach>
+    </insert>
+	<insert id="updateladp" parameterType="com.autodb.ops.dms.entity.user.LdapUser">
+		update user set nickname = #{cn},email=#{mail},mobile=#{mobile} where username=#{sn}
+	</insert>
+    <delete id="deleteRoles" parameterType="int">
+        DELETE FROM user_role WHERE user_id=#{id}
+    </delete>
+</mapper>

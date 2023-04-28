@@ -1,0 +1,32 @@
+<div class="well data-change-ds" id="{{=it.id}}">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <a class="pull-right text-muted del-ds" href="javascript:;"><i class="fa fa-minus-circle"></i></a>
+                <strong>数据源</strong>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <select name="ds-env" class="form-control">
+                    <option value="prod">正式环境</option>
+                    <option value="test">测试环境</option>
+                    <option value="dev">开发环境</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="form-group">
+                <select name="ds-name" class="form-control" data-placeholder="请选择数据源">
+                </select>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group" style="margin-bottom: 0">
+                <label class="control-label"><span class="text-danger">*</span> 数据变更SQL</label>
+                <textarea name="sql" class="form-control" rows="1"></textarea>
+                <span class="help-block small text-muted">多条SQL使用<code>;</code>分割</span>
+            </div>
+        </div>
+    </div>
+</div>

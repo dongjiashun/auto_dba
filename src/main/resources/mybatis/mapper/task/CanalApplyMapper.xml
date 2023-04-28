@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CanalApplyMapper">
+    <resultMap id="CanalApplyMap" type="CanalApply">
+        <id property="id" column="id" />
+        <result property="task.id" column="task_id"/>
+
+        <result property="env" column="env"/>
+        <result property="sid" column="sid"/>
+        <result property="table" column="table"/>
+        <result property="reason" column="reason"/>
+
+        <result property="client" column="client"/>
+        <result property="manager" column="manager"/>
+        <result property="target" column="target"/>
+        <result property="index" column="index"/>
+        <result property="key" column="key"/>
+
+        <result property="assessor" column="assessor"/>
+        <result property="assessTime" column="assess_time"/>
+        <result property="assessType" column="assess_type"/>
+        <result property="assessRemark" column="assess_remark"/>
+    </resultMap>
+
+    <sql id="fields">id, task_id, `env`, `sid`, `table`, `reason`, `client`, `manager`, `target`, `index`, `key`, `assessor`, assess_time, assess_type, assess_remark</sql>
+
+    <insert id="add" parameterType="CanalApply" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO task_canal_apply (<include refid="fields"/>)
+        VALUES (default, #{task.id}, #{env}, #{sid}, #{table}, #{reason}, #{client}, #{manager}, #{target}, #{index}, #{key}, #{assessor}, #{assessTime}, #{assessType}, #{assessRemark});
+    </insert>
+
+    <update id="update" parameterType="CanalApply">
+        UPDATE task_canal_apply
+        SET `client`=#{client}, `manager`=#{manager}, `target`=#{target}, `index`=#{index}, `key`=#{key},
+            `reason`=#{reason}, `assessor`=#{assessor}, assess_time=#{assessTime}, assess_type=#{assessType}, assess_remark=#{assessRemark}
+        WHERE id=#{id}
+    </update>
+
+    <select id="findByTask" parameterType="int" resultMap="CanalApplyMap">
+        SELECT <include refid="fields"/> FROM task_canal_apply
+        WHERE task_id=#{taskId}
+        ORDER BY `key`
+    </select>
+</mapper>

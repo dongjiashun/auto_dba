@@ -1,0 +1,19 @@
+<div class="well">
+    <textarea class="form-control sql-code" rows="5"></textarea>
+    <div class="ctrl clearfix">
+        <span class="pull-right small text-muted "><code>F11</code>全屏编辑，<code>ESC</code>退出全屏</span>
+        <div class="btn-group">
+            <button name="query" type="button" class="btn btn-primary">执行</button>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a name="explain" href="javascript:;">执行计划</a></li>
+            </ul>
+        </div>
+        <button name="format" class="btn btn-success">格式化</button>
+        <button name="clean" class="btn btn-default">清除</button>
+    </div>
+    <div class="results"></div>
+</div>

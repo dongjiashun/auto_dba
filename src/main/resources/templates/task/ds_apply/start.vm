@@ -1,0 +1,58 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "数据源申请")
+    #parse("include/head.vm")
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()数据源申请#end
+    #@pageContent()
+    <p class="lead">
+        <i class="fa fa-database fa-fw"></i> 数据源申请
+        <a class="text-muted small" target="_blank" href="$basePath/process_img/ds-apply.png" title="点击查看流程图"><i class="fa fa-file-image-o fa-fw"></i></a></p>
+    <hr>
+    <form id="ds-apply-form" action="#" method="post">
+        <div class="form-body" lang="zh-CN">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">环境</label>
+                        <select name="ds-env" class="form-control">
+                            <option value="prod">正式环境</option>
+                            <option value="test">测试环境</option>
+                            <option value="dev">开发环境</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="form-group">
+                        <label class="control-label"><span class="text-danger">*</span> 数据源</label>
+                        <select name="ds-name" multiple="multiple" class="form-control" data-placeholder="请选择数据源">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label"><span class="text-danger">*</span> 申请理由</label>
+                        <textarea name="reason" class="form-control" rows="5"></textarea>
+                        <span class="help-block small">请概述主要用途,方便审核时赋予相应的权限</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group text-danger form-msg"></div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">申请</button>
+            <a href="$basePath/" class="btn btn-default">取消</a>
+        </div>
+    </form>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/task/dsApply.js")
+</body>
+</html>

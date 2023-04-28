@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SchemaApplyMapper">
+    <resultMap id="SchemaApplyMap" type="SchemaApply">
+        <id property="id" column="id" />
+        <result property="task.id" column="task_id"/>
+
+        <result property="env" column="env"/>
+        <result property="sid" column="sid"/>
+        <result property="product" column="product"/>
+        <result property="scene" column="scene"/>
+        <result property="productDesc" column="product_desc"/>
+        <result property="capacityDesc" column="capacity_desc"/>
+        <result property="split" column="split"/>
+        <result property="splitDesc" column="split_desc"/>
+
+        <result property="assessor" column="assessor"/>
+        <result property="assessTime" column="assess_time"/>
+        <result property="assessType" column="assess_type"/>
+        <result property="assessRemark" column="assess_remark"/>
+    </resultMap>
+
+    <sql id="fields">id, task_id, `env`, `sid`, `product`, `scene`, product_desc, capacity_desc, `split`, split_desc, `assessor`, assess_time, assess_type, assess_remark</sql>
+
+    <insert id="add" parameterType="SchemaApply" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO task_schema_apply (<include refid="fields"/>)
+        VALUES (default, #{task.id}, #{env}, #{sid}, #{product}, #{scene}, #{productDesc}, #{capacityDesc}, #{split}, #{splitDesc}, #{assessor}, #{assessTime}, #{assessType}, #{assessRemark});
+    </insert>
+
+    <update id="update" parameterType="SchemaApply">
+        UPDATE task_schema_apply
+        SET `product_desc`=#{productDesc}, `capacity_desc`=#{capacityDesc}, `split`=#{split}, `split_desc`=#{splitDesc}, `assessor`=#{assessor}, assess_time=#{assessTime}, assess_type=#{assessType}, assess_remark=#{assessRemark}
+        WHERE id=#{id}
+    </update>
+
+    <select id="findByTask" parameterType="int" resultMap="SchemaApplyMap">
+        SELECT <include refid="fields"/> FROM task_schema_apply
+        WHERE task_id=#{taskId}
+    </select>
+</mapper>

@@ -1,0 +1,66 @@
+#foreach($dataExport in $process.taskBiz.entity)
+<p class="lead2">子任务: $static.env($dataExport.dsEnv) - $dataExport.dsName</p>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+        <td>审核状态</td>
+        <td>审核人</td>
+        <td>审核时间</td>
+        <td>审核备注</td>
+        <td>导出状态</td>
+        <td>影响行数</td>
+        <td>是否脱敏</td>
+        </thead>
+        <tr>
+            <td>
+                #if($dataExport.assessor)
+                    #if($dataExport.assessType == 1)
+                        <span class="label label-success">通过</span>
+                    #else
+                        <span class="label label-danger">未通过</span>
+                    #end
+                #end
+            </td>
+            <td>$!dataExport.assessor</td>
+            <td>$!date.format($!dataExport.assessTime)</td>
+            <td>
+                #if($dataExport.assessRemark && $dataExport.assessRemark.length() > 20)
+                    <span role="button" title="查看完成数据" data-info-large="true" data-info="$!dataExport.assessRemark">
+                        $display.truncate($!dataExport.assessRemark, 20)
+                                    </span>
+                #else
+                    $!dataExport.assessRemark
+                #end
+            </td>
+            <td>
+                #if($dataExport.assessor)
+                    #if($dataExport.executeSuccess)
+                        <span class="label label-success">成功</span>
+                    #else
+                        <span class="label label-danger">失败</span>
+                    #end
+                #end
+            </td>
+            <td>$dataExport.affectSize</td>
+            <td>
+                #if($dataExport.security)
+                    <span class="label label-success">是</span>
+                #else
+                    <span class="label label-danger">否</span>
+                #end
+            </td>
+        </tr>
+    </table>
+</div>
+    #foreach($file in $dataExport.dataFile.split(";"))
+        #if($file != "")
+        <div>数据文件$foreach.count: <a target="_blank" href="$basePath/downloads?file=$esc.url($file)">$file</a></div>
+        #end
+    #end
+    <br/>
+    <pre class="code"><code class="sql">$dataExport.sql</code></pre>
+    #if($dataExport.message)
+    <pre>$!dataExport.message</pre>
+    #end
+<hr>
+#end

@@ -1,0 +1,74 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "部门数据源管理")
+    #parse("include/head.vm")
+    <style type="text/css">
+        form .panel {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        @media (min-width: 992px) {
+            .modal-lg {
+                width: 980px;
+            }
+        }
+    </style>
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar2()
+    <ol class="breadcrumb">
+        <li><a href="$basePath/">主页</a></li>
+        <li class="active">部门数据源管理</li>
+    </ol>
+    <div class="toolbar">
+        <a id="ds-add" href="javascript:;" class="btn btn-info btn-sm"><i class="fa fa-plus-square-o"></i> 添加部门数据源</a>
+    </div>
+    #end
+
+    #@pageContent()
+    <div id="toolbar" class="clearfix">
+        <p class="lead pull-left"><i class="fa fa-database fa-fw"></i> 部门数据源管理&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        <div class="btn-group pull-left" data-toggle="buttons">
+            <label class="btn btn-default active">
+                <input type="radio" name="env" value="prod" autocomplete="off" checked>正式环境
+            </label>
+            <label class="btn btn-default">
+                <input type="radio" name="env" value="test" autocomplete="off">测试环境
+            </label>
+            <label class="btn btn-default">
+                <input type="radio" name="env" value="dev" autocomplete="off">开发环境
+            </label>
+        </div>
+    </div>
+    <table id="datasources" class="table table-striped"
+           data-toolbar="#toolbar"
+           data-page-list="[10,25,50]"
+           data-pagination="true"
+           data-search="true"
+           data-show-refresh="true"
+           data-show-columns="true"
+           data-show-toggle="true"
+           data-url="$basePath/datasource/department/list?env=prod"
+           data-unique-id="id">
+        <thead>
+        <tr>
+            <th data-field="team" data-searchable="true" data-sortable="true">部门</th>
+            <th data-field="dbname" data-sortable="true">数据源名称</th>
+            <th data-field="dbinstance">实例</th>
+            <th data-field="username" data-sortable="true">用户名</th>
+            <th data-field="passwd" data-searchable="false">密码</th>
+            <th data-field="slowlog" data-searchable="false">slowlog</th>
+            <th data-field="sqlkill" data-searchable="false">sqlkill</th>
+            <th data-field="op" data-searchable="false" data-formatter="opFormatter" data-width="90">操作</th>
+        </tr>
+        </thead>
+    </table>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/datasource/department.js")
+</body>
+</html>

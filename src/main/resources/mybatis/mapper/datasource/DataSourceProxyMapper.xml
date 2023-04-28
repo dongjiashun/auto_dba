@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DataSourceProxyMapper">
+    <resultMap id="DataSourceProxyMap" type="DataSourceProxy">
+        <id property="id" column="id" />
+        <result property="name" column="name"/>
+        <result property="host" column="host"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+    </resultMap>
+
+    <sql id="fields">`id`, `name`, `host`, gmt_create, gmt_modified</sql>
+
+    <select id="find" parameterType="int" resultMap="DataSourceProxyMap">
+        SELECT <include refid="fields"/> FROM datasource_proxy WHERE `id`=#{id}
+    </select>
+
+    <select id="findAll" resultMap="DataSourceProxyMap">
+        SELECT <include refid="fields"/> FROM datasource_proxy ORDER BY `name` ASC
+    </select>
+
+    <select id="findByNameOrHost" parameterType="map" resultMap="DataSourceProxyMap">
+        SELECT <include refid="fields"/> FROM datasource_proxy WHERE `name`=#{name} OR `host`=#{host}
+    </select>
+
+    <insert id="add" parameterType="DataSourceProxy" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO datasource_proxy (<include refid="fields"/>)
+        VALUES (default, #{name}, #{host}, #{gmtCreate}, #{gmtModified})
+    </insert>
+
+    <update id="update" parameterType="DataSourceProxy">
+        UPDATE datasource_proxy
+        SET `name`=#{name},host=#{host},gmt_modified=#{gmtModified}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM datasource_proxy WHERE id=#{id}
+    </delete>
+</mapper>

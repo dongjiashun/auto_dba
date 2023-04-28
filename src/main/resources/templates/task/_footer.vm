@@ -1,0 +1,4 @@
+<a href="$basePath/" class="btn btn-primary">返回主页</a>
+#if($process.canCancel)
+<button class="btn btn-warning" data-process-cancel="/task/cancel/${process.taskBiz.processInstanceId}">取消流程</button>
+#end

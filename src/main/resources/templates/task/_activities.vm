@@ -1,0 +1,27 @@
+<p class="lead2">活动记录</p>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+        <td>活动名称</td>
+        <td>处理人</td>
+        <td>处理时间</td>
+        <td>备注</td>
+        </thead>
+        #foreach($activity in $process.activities)
+            <tr>
+                <td>$!activity.name</td>
+                <td>$!activity.assignee</td>
+                <td>$date.format($!activity.time)</td>
+                <td>
+                    #if($activity.comment && $activity.comment.length() > 30)
+                        <span role="button" title="查看完成数据" data-info-large="true" data-info="$!activity.comment">
+                            $display.truncate($!activity.comment, 30)
+                                </span>
+                    #else
+                        $!activity.comment
+                    #end
+                </td>
+            </tr>
+        #end
+    </table>
+</div>

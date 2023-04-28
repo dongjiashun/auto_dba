@@ -1,0 +1,8 @@
+<div id="proxy-form" class="form-horizontal">
+    <div class="form-group">
+        <input name="id" type="hidden" value="{{=it.id || ''}}">
+        <div class="col-sm-6"><input name="name" type="text" value="{{=it.name || ''}}" class="form-control" placeholder="name"></div>
+        <div class="col-sm-6"><input name="host" type="text" value="{{=it.host || ''}}" class="form-control" placeholder="host"></div>
+    </div>
+    <div class="form-msg text-danger"></div>
+</div>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SqlHistoryMapper">
+    <resultMap id="SqlHistoryMap" type="SqlHistory">
+        <id property="id" column="id" />
+        <result property="dataSource.id" column="datasource_id"/>
+        <result property="user.id" column="user_id"/>
+        <result property="type" column="type"/>
+        <result property="sql" column="sql"/>
+        <result property="execSql" column="exec_sql"/>
+        <result property="execHash" column="exec_hash"/>
+        <result property="execTime" column="exec_time"/>
+        <result property="count" column="count"/>
+        <result property="gmtCreate" column="gmt_create"/>
+    </resultMap>
+
+    <sql id="fields">id, datasource_id, user_id, `type`, `sql`, exec_sql, exec_hash, exec_time, count, gmt_create</sql>
+
+    <insert id="add" parameterType="SqlHistory" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO sql_history (<include refid="fields"/>)
+        VALUES (default, #{dataSource.id}, #{user.id}, #{type}, #{sql}, #{execSql}, #{execHash}, #{execTime}, #{count}, #{gmtCreate});
+    </insert>
+
+    <select id="findByUserType" parameterType="map" resultMap="SqlHistoryMap">
+        SELECT <include refid="fields"/> FROM sql_history WHERE user_id=#{userId} AND type=#{type} ORDER BY gmt_create DESC
+    </select>
+</mapper>

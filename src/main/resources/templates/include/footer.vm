@@ -1,0 +1,9 @@
+<div class="footer">
+    <div class="pull-right">
+        $!date.get("yyyy-MM-dd")
+    </div>
+    <div>
+        <strong>Copyright</strong> dongjs Company <a href="$basePath/manage" target="_blank">©</a> 2015-2017
+    </div>
+</div>
+$static.javascript("js/base.js")

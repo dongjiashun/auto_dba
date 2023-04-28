@@ -1,0 +1,57 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "结构变更上线")
+    #parse("include/head.vm")
+    <style type="text/css">
+        form, .form-group {
+            margin-bottom: 10px;
+        }
+        #timeline ul li {
+            margin-top: 1em;
+        }
+        .CodeMirror {
+            border: 1px solid #ccc;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()结构变更上线#end
+    #@pageContent()
+    <p class="lead">
+        <i class="fa fa-cubes fa-fw"></i> 结构变更上线 <i class="fa fa-upload"></i>
+    </p>
+    <hr>
+    <form id="online-form" action="#" method="post">
+        <div class="form-body" lang="zh-CN">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <select name="ds" class="form-control" data-placeholder="请选择上线数据源">
+                            <option value=""></option>
+                            #foreach($auth in $auths)
+                                <option value="$auth.dataSource.id">[$auth.dataSource.type]$auth.dataSource.name</option>
+                            #end
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-actions">
+                        <button id="timeline-btn" type="button" class="btn btn-primary">获取上线时间点</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <div id="timeline"></div>
+    <div id="change"></div>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/task/structChangeOnline.js")
+</body>
+</html>

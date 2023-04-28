@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="RuJobMapper">
+    <resultMap id="RuJobMap" type="RuJob">
+        <id property="id" column="ID_" />
+        <result property="rev" column="REV_"/>
+        <result property="type" column="TYPE_"/>
+        <result property="lock_exp_time" column="LOCK_EXP_TIME_"/>
+        <result property="lock_owner" column="LOCK_OWNER_"/>
+        <result property="exclusive" column="EXCLUSIVE_"/>
+
+        <result property="execution_id" column="EXECUTION_ID_"/>
+        <result property="process_instance_id" column="PROCESS_INSTANCE_ID_"/>
+        <result property="proc_def_id" column="PROC_DEF_ID_"/>
+
+        <result property="retries" column="RETRIES_"/>
+        <result property="exception_stack_id" column="EXCEPTION_STACK_ID_"/>
+        <result property="exception_msg" column="EXCEPTION_MSG_"/>
+
+        <result property="duedate" column="DUEDATE_"/>
+        <result property="repeat" column="REPEAT_"/>
+        <result property="handler_type" column="HANDLER_TYPE_"/>
+        <result property="handler_cfg" column="HANDLER_CFG_"/>
+        <result property="tenant_id" column="TENANT_ID_"/>
+    </resultMap>
+
+    <sql id="fields">ID_, TYPE_, `LOCK_EXP_TIME_`, `LOCK_OWNER_`, EXCLUSIVE_, EXECUTION_ID_, PROCESS_INSTANCE_ID_, `PROC_DEF_ID_`, `RETRIES_`, `EXCEPTION_STACK_ID_`, `EXCEPTION_MSG_`, `DUEDATE_`, `REPEAT_`, `HANDLER_TYPE_`, `HANDLER_CFG_`, `TENANT_ID_`</sql>
+
+    <update id="update" parameterType="RuJob">
+        UPDATE act_ru_job
+        SET `DUEDATE_`=#{duedate}
+        WHERE ID_=#{id}
+    </update>
+
+    <select id="findByExecutionId" parameterType="map" resultMap="RuJobMap">
+        SELECT <include refid="fields"/> FROM act_ru_job
+        WHERE EXECUTION_ID_=#{execution_id}
+    </select>
+</mapper>

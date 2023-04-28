@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DataChangeMapper">
+    <resultMap id="DataChangeMap" type="DataChange">
+        <id property="id" column="id" />
+        <result property="task.id" column="task_id"/>
+        <result property="key" column="key"/>
+        <result property="reason" column="reason"/>
+        <result property="dsEnv" column="ds_env"/>
+        <result property="dsName" column="ds_name"/>
+
+        <result property="sql" column="sql"/>
+        <result property="executeSuccess" column="execute_success"/>
+        <result property="affectSize" column="affect_size"/>
+        <result property="message" column="message"/>
+        <result property="rollbackSqlFile" column="rollback_sql_file"/>
+        <result property="backupFile" column="backup_file"/>
+
+        <result property="assessor" column="assessor"/>
+        <result property="assessTime" column="assess_time"/>
+        <result property="assessType" column="assess_type"/>
+        <result property="assessRemark" column="assess_remark"/>
+    </resultMap>
+
+    <sql id="fields">id, task_id, `key`, `reason`, ds_env, ds_name, `sql`, `execute_success`, `affect_size`, `message`, `rollback_sql_file`, `backup_file`, `assessor`, assess_time, assess_type, assess_remark</sql>
+
+    <insert id="add" parameterType="DataChange" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO task_data_change (<include refid="fields"/>)
+        VALUES (default, #{task.id}, #{key}, #{reason}, #{dsEnv}, #{dsName}, #{sql}, #{executeSuccess}, #{affectSize}, #{message}, #{rollbackSqlFile}, #{backupFile}, #{assessor}, #{assessTime}, #{assessType}, #{assessRemark});
+    </insert>
+
+    <update id="update" parameterType="DataChange">
+        UPDATE task_data_change
+        SET `reason`=#{reason}, `sql`=#{sql},`execute_success`=#{executeSuccess},`affect_size`=#{affectSize},`message`=#{message},`rollback_sql_file`=#{rollbackSqlFile},`backup_file`=#{backupFile},`assessor`=#{assessor}, assess_time=#{assessTime}, assess_type=#{assessType}, assess_remark=#{assessRemark}
+        WHERE id=#{id}
+    </update>
+
+    <select id="findByTask" parameterType="int" resultMap="DataChangeMap">
+        SELECT <include refid="fields"/> FROM task_data_change
+        WHERE task_id=#{taskId}
+        ORDER BY `key`
+    </select>
+
+    <select id="findByTaskAndKey" parameterType="map" resultMap="DataChangeMap">
+        SELECT <include refid="fields"/> FROM task_data_change
+        WHERE task_id=#{taskId} AND `key`=#{key}
+    </select>
+</mapper>

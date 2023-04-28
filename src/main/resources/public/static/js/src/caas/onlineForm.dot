@@ -1,0 +1,23 @@
+<hr>
+<form action="#" method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label">上线说明</label>
+                <input name="title" type="text" class="form-control" placeholder="非必填">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group" style="margin-bottom: 0">
+                <label class="control-label"><span class="text-danger">*</span> 上线变更SQL</label>
+                <textarea name="sql" class="form-control" rows="1">{{=it.sql}}</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="text-danger form-msg" style="margin-bottom: 15px"></div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-warning">变更提交</button>
+    </div>
+</form>

@@ -1,0 +1,14 @@
+#set($basePath = $request.contextPath)
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--[if lt IE 10]>
+<meta http-equiv="refresh" content="0;URL='$basePath/old_browser'" />
+<![endif]-->
+#if($pageTitle)
+<title>$pageTitle - DMS</title>
+#else
+<title>DMS 数据管理信息</title>
+#end
+$static.var("base_path", $basePath)
+$static.css("css/base.css")

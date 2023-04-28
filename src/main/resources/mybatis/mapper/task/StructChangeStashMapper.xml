@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StructChangeStashMapper">
+    <resultMap id="StructChangeStashMap" type="StructChangeStash">
+        <id property="id" column="id" />
+        <result property="user.username" column="user"/>
+        <result property="title" column="title"/>
+        <result property="ds" column="ds"/>
+        <result property="changeType" column="change_type"/>
+        <result property="sql" column="sql"/>
+        <result property="gmtCreate" column="gmt_create"/>
+    </resultMap>
+
+    <sql id="fields">id, `user`, title, ds, change_type, `sql`, gmt_create</sql>
+
+    <insert id="add" parameterType="StructChangeStash" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO struct_change_stash (<include refid="fields"/>)
+        VALUES (default, #{user.username}, #{title}, #{ds}, #{changeType}, #{sql}, #{gmtCreate});
+    </insert>
+
+    <delete id="deleteByLastId" parameterType="map">
+        <![CDATA[
+        DELETE FROM struct_change_stash
+        WHERE ds=#{dataSourceId} AND id<=#{lastId}
+        ]]>
+    </delete>
+
+    <select id="findByDatasource" parameterType="int" resultMap="StructChangeStashMap">
+        SELECT <include refid="fields"/> FROM struct_change_stash
+        WHERE ds=#{id}
+    </select>
+</mapper>

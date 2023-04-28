@@ -1,0 +1,38 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "用户管理")
+    #parse("include/head.vm")
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()用户管理#end
+    #@pageContent()
+    <p id="users-toolbar" class="lead"><i class="fa fa-user fa-fw"></i> 用户管理</p>
+    <table id="users" class="table table-striped"
+           data-toolbar="#users-toolbar"
+           data-page-list="[10,15,20]"
+           data-pagination="true"
+           data-side-pagination="server"
+           data-search="true"
+           data-show-refresh="true"
+           data-url="$basePath/user/manage/list"
+           data-unique-id="id">
+        <thead>
+        <tr>
+            <th data-field="username">登录名</th>
+            <th data-field="nickname">花名</th>
+            <th data-field="mobile">手机号</th>
+            <th data-field="email">邮箱</th>
+            <th data-field="gmtCreate" data-formatter="timeFormatter">创建时间</th>
+            <th data-field="op" data-formatter="opFormatter" data-width="70">操作</th>
+        </tr>
+        </thead>
+    </table>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/user/manage.js")
+</body>
+</html>

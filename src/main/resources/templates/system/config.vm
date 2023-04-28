@@ -1,0 +1,39 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "系统参数")
+    #parse("include/head.vm")
+    <style type="text/css">
+        .CodeMirror {
+            border: 1px solid #ddd;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()系统参数#end
+    #@pageContent()
+    <p class="lead"><i class="fa fa-cogs fa-fw"></i> 系统参数</p>
+    <textarea id="sys-config" class="form-control" rows="10">$!config</textarea>
+    <hr>
+    #*<p class="lead"><i class="fa fa-diamond fa-fw"></i> 系统工具</p>
+    <p class="lead2">strongbox</p>
+    <div>
+        <a target="_blank" href="$basePath/system/tool/strongbox/prod/export" danger="danger">/system/tool/strongbox/prod/export</a>
+    </div>
+    <div>
+        <a target="_blank" href="$basePath/system/tool/strongbox/test/export" danger="danger">/system/tool/strongbox/test/export</a>
+    </div>
+    <hr>
+    <p class="lead2">BI security data</p>
+    <div>
+        <a target="_blank" href="$basePath/system/tool/security/import" danger="danger">/system/tool/security/import</a>
+    </div>*# #*先注释掉这个功能 xieliuping*#
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/system/config.js")
+</body>
+</html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PrivilegeMapper">
+    <resultMap id="PrivilegeMap" type="Privilege">
+        <id property="id" column="id" />
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="desc" column="desc"/>
+    </resultMap>
+
+    <sql id="fields">id, `name`, `code`, `desc`</sql>
+
+    <select id="findByRole" parameterType="int" resultMap="PrivilegeMap">
+        SELECT <include refid="fields"/> FROM privilege p, role_privilege rp
+        WHERE rp.role_id = #{id} and p.id = rp.priv_id
+    </select>
+</mapper>

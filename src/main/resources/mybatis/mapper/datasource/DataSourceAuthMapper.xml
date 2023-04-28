@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DataSourceAuthMapper">
+    <resultMap id="DataSourceAuthMap" type="DataSourceAuth">
+        <id property="id" column="id" />
+        <result property="dataSource.id" column="datasource_id"/>
+        <result property="user.id" column="user_id"/>
+        <result property="user.username" column="user_name"/>
+        <result property="gmtAuth" column="gmt_auth"/>
+    </resultMap>
+
+    <resultMap id="AuthRoleMap" type="DataSourceAuthRole">
+        <result property="auth" column="auth_id"/>
+        <result property="role" column="role"/>
+    </resultMap>
+
+    <sql id="fields">id, datasource_id, user_id, user_name, gmt_auth</sql>
+    <sql id="dsa_fields">dsa.id, dsa.datasource_id, dsa.user_id, dsa.user_name, dsa.gmt_auth</sql>
+
+    <insert id="add" parameterType="DataSourceAuth" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO datasource_auth (<include refid="fields"/>)
+        VALUE (default, #{dataSource.id}, #{user.id}, #{user.username}, #{gmtAuth})
+    </insert>
+
+
+    <select id="find" parameterType="int" resultMap="DataSourceAuthMap">
+        SELECT <include refid="fields"/> FROM datasource_auth WHERE id=#{id}
+    </select>
+
+    <select id="findByUserDs" parameterType="map" resultMap="DataSourceAuthMap">
+        SELECT <include refid="fields"/> FROM datasource_auth WHERE user_id=#{userId} AND datasource_id=#{dsId}
+    </select>
+
+    <select id="findByDataSource" parameterType="int" resultMap="DataSourceAuthMap">
+        SELECT <include refid="fields"/> FROM datasource_auth WHERE datasource_id=#{id} ORDER BY gmt_auth DESC
+    </select>
+
+    <select id="findByUserEnv" parameterType="map" resultMap="DataSourceAuthMap">
+        SELECT <include refid="dsa_fields"/> FROM datasource_auth dsa, datasource ds
+        WHERE dsa.user_id=#{userId} AND dsa.datasource_id=ds.id AND ds.env=#{env}
+        ORDER BY ds.name ASC
+    </select>
+
+    <select id="findByUser" parameterType="int" resultMap="DataSourceAuthMap">
+        SELECT <include refid="dsa_fields"/> FROM datasource_auth dsa, datasource ds
+        WHERE dsa.user_id=#{userId} AND dsa.datasource_id=ds.id
+        ORDER BY ds.env ASC, ds.name ASC
+    </select>
+
+    <select id="findByDataSourceRole" parameterType="map" resultMap="DataSourceAuthMap">
+        SELECT <include refid="dsa_fields"/> FROM datasource_auth dsa, datasource_auth_role dsar
+        WHERE dsa.datasource_id=#{dataSourceId} AND dsar.role=#{role} AND dsar.auth_id=dsa.id
+    </select>
+
+    <select id="findByDataSourceRoles" parameterType="map" resultMap="DataSourceAuthMap">
+        SELECT <include refid="dsa_fields"/> FROM datasource_auth dsa, datasource_auth_role dsar
+        WHERE dsa.datasource_id=#{dataSourceId} AND dsar.auth_id=dsa.id
+        AND dsar.role IN <foreach collection="roles" item="item" open="(" separator="," close=")">#{item}</foreach>
+    </select>
+
+    <delete id="deleteByIds" parameterType="list">
+        DELETE FROM datasource_auth WHERE id in <foreach collection="list" item="item" open="(" separator="," close=")">#{item}</foreach>
+    </delete>
+
+    <delete id="deleteByDataSource" parameterType="int">
+        DELETE FROM datasource_auth WHERE datasource_id=#{dsId}
+    </delete>
+
+    <!-- datasource_auth_role -->
+    <insert id="addAuthRole" parameterType="map">
+        INSERT INTO datasource_auth_role(auth_id, role) VALUES
+        <foreach collection="roles" item="item" separator="," >
+            (#{id}, #{item})
+        </foreach>
+    </insert>
+
+    <select id="findAuthRole" parameterType="list" resultMap="AuthRoleMap">
+        SELECT auth_id, role FROM datasource_auth_role
+        WHERE auth_id in <foreach collection="list" item="item" open="(" separator="," close=")">#{item}</foreach>
+    </select>
+
+    <delete id="deleteAuthRoleByAuthId" parameterType="int">
+        DELETE FROM datasource_auth_role WHERE auth_id=#{id}
+    </delete>
+
+    <delete id="deleteAuthRoleByAuthIds" parameterType="list">
+        DELETE FROM datasource_auth_role WHERE auth_id in <foreach collection="list" item="item" open="(" separator="," close=")">#{item}</foreach>
+    </delete>
+
+    <delete id="deleteAuthRoleByDsId" parameterType="int">
+        DELETE FROM datasource_auth_role WHERE auth_id in (SELECT id FROM datasource_auth WHERE datasource_id = #{dsId})
+    </delete>
+
+    <select id="hasRole" parameterType="map" resultMap="DataSourceAuthMap">
+        SELECT <include refid="dsa_fields"/> FROM datasource_auth dsa, datasource_auth_role dsar
+        WHERE dsar.`auth_id` = dsa.id AND dsar.`role` = #{role} AND dsa.`datasource_id` = #{dsId} AND dsa.`user_id` = #{userId}
+    </select>
+</mapper>

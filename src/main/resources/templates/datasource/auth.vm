@@ -1,0 +1,77 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "数据源授权管理")
+    #parse("include/head.vm")
+    $static.referMenu("/datasource/manage")
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar1()
+    <li><a href="$basePath/datasource/manage">数据源管理</a></li>
+    <li class="active">数据源授权管理</li>
+    #end
+    #@pageContent()
+    <p class="lead"><i class="fa fa-database fa-fw"></i> 数据源授权管理 - $datasource.name</p>
+    <hr>
+    <form id="ds-auth-form" action="#" method="post">
+        <input type="hidden" name="id" value="$datasource.id">
+        <div class="form-body" lang="zh-CN">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <select name="users" class="form-control" multiple="multiple" data-placeholder="请选择要新增或修改授权的用户">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        #foreach($role in $roles)
+                            <label style="margin-right: 3em"><input type="checkbox" name="role" value="$role.code">&nbsp;${role.name}&nbsp;&nbsp;</label>
+                        #end
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button class="btn btn-success btn-sm" type="submit" title="新增/修改授权">
+                <i class="fa fa-user-plus fa-fw"></i> 新增 / 修改
+            </button>
+            &nbsp;&nbsp;
+            <span class="text-muted small">角色为非必填项, 一般用户默认即可</span>
+        </div>
+    </form>
+    <hr>
+    <p class="ds-auth-toolbar">
+        <button class="btn btn-danger btn-sm" type="button" id="auth-del" title="删除选中授权">
+            <i class="fa fa-times fa-fw"></i> 删除
+        </button>
+    </p>
+    <table id="ds-auth-table" class="table table-striped"
+           data-toolbar=".ds-auth-toolbar"
+           data-page-list="[10,25,50]"
+           data-pagination="true"
+           data-search="true"
+           data-show-refresh="true"
+           data-sort-name="time"
+           data-sort-order="desc"
+           data-url="$basePath/datasource/$datasource.id/auth_data"
+           data-unique-id="id">
+        <thead>
+        <tr>
+            <th data-checkbox="true"></th>
+            <th data-field="user" data-sortable="true">用户</th>
+            <th data-field="role" data-sortable="false">角色</th>
+            <th data-field="time" data-searchable="false" data-sortable="true" data-formatter="timeFormatter">授权时间</th>
+        </tr>
+        </thead>
+    </table>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/datasource/auth.js")
+</body>
+</html>

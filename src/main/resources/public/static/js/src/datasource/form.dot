@@ -1,0 +1,129 @@
+<form id="ds-form" action="#" method="post">
+    <div class="form-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="id" type="hidden" value="{{=it.id || ''}}">
+                    <input name="name" class="form-control" type="text" data-value="{{=it.name || ''}}" value="{{=it.name || ''}}" placeholder="数据源名称">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <select name="type" class="form-control">
+                        <option value="mysql" {{? it.type == 'mysql' }}selected{{?}}>MySQL</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <select name="env" class="form-control">
+                        <option value="prod" {{? it.env == 'prod' }}selected{{?}}>正式环境</option>
+                        <option value="test" {{? it.env == 'test' }}selected{{?}}>测试环境</option>
+                        <option value="dev" {{? it.env == 'dev' }}selected{{?}}>开发环境</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">主库</div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-3 control-label"><span class="text-danger">*</span> SID：</label>
+                                <div class="col-sm-9"><input name="sid" type="text" value="{{=it.sid || ''}}" class="form-control"></div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-3 control-label"><span class="text-danger">*</span> 主机：</label>
+                                <div class="col-sm-9"><input name="host" type="text" value="{{=it.host || ''}}" class="form-control"></div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-3 control-label"><span class="text-danger">*</span> 端口号：</label>
+                                <div class="col-sm-9"><input name="port" type="text" value="{{=it.port || ''}}" class="form-control"></div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-3 control-label"><span class="text-danger">*</span> 用户名：</label>
+                                <div class="col-sm-9"><input name="username" type="text" value="{{=it.username || ''}}" class="form-control"></div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-3 control-label"><span class="text-danger">*</span> 密码：</label>
+                                <div class="col-sm-9"><input name="password" type="password" value="{{=it.password || ''}}" class="form-control"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="pull-right small"><a name="sync-main" href="javascript:;" title="点击使用与主库相同配置">与主库一致</a></span>
+                        <span class="pull-right small" style="margin-right: 2em"><a name="sync-main-weak" href="javascript:;" title="点击使用与主库相同配置">与主库一致(不含用户/密码)</a></span>
+                        备库
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-3 control-label"><span class="text-danger">*</span> SID：</label>
+                                <div class="col-sm-9"><input name="sid2" type="text" value="{{=it.sid2 || ''}}" class="form-control"></div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-3 control-label"><span class="text-danger">*</span> 主机：</label>
+                                <div class="col-sm-9"><input name="host2" type="text" value="{{=it.host2 || ''}}" class="form-control"></div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-3 control-label"><span class="text-danger">*</span> 端口号：</label>
+                                <div class="col-sm-9"><input name="port2" type="text" value="{{=it.port2 || ''}}" class="form-control"></div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-3 control-label"><span class="text-danger">*</span> 用户名：</label>
+                                <div class="col-sm-9"><input name="username2" type="text" value="{{=it.username2 || ''}}" class="form-control"></div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-3 control-label"><span class="text-danger">*</span> 密码：</label>
+                                <div class="col-sm-9"><input name="password2" type="password" value="{{=it.password2 || ''}}" class="form-control"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="pull-right"><button name="test-proxy" class="btn btn-success btn-xs">测试代理连接</button></span>
+                        代理配置&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="small"><a name="sync-main-proxy" href="javascript:;" title="点击使用与主库相同配置">SID、用户、密码与主库一致</a></span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-1 control-label">代理：</label>
+                                <div class="col-sm-7">
+                                    <select name="proxyId" class="form-control">
+                                        <option value="">--no proxy--</option>
+                                        {{~it.proxies :value:index}}
+                                        <option value="{{=value.id}}"{{? it.proxy && it.proxy.id == value.id}} selected="selected"{{?}}>{{=value.name}}({{=value.host}})</option>
+                                        {{~}}
+                                    </select>
+                                </div>
+                                <label class="col-sm-1 control-label">端口：</label>
+                                <div class="col-sm-3"><input name="proxyPort" type="text" class="form-control" value="{{=it.proxyPort || ''}}"></div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-1 control-label">SID：</label>
+                                <div class="col-sm-3"><input name="proxySid" type="text" class="form-control" value="{{=it.proxySid || ''}}"></div>
+                                <label class="col-sm-1 control-label">用户：</label>
+                                <div class="col-sm-3"><input name="proxyUsername" type="text" class="form-control" value="{{=it.proxyUsername || ''}}"></div>
+                                <label class="col-sm-1 control-label">密码：</label>
+                                <div class="col-sm-3"><input name="proxyPassword" type="password" class="form-control" value="{{=it.proxyPassword || ''}}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="ds-form-msg" class="text-danger"></div>
+</form>

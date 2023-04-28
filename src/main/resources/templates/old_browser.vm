@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>请升级您的浏览器</title>
+</head>
+<body>
+<div style="margin-top: 80px;text-align: center;">
+    您的浏览器版本<strong>很旧很旧</strong>，为了正常地访问本站点，请升级您的浏览器
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <a target="_blank" href="http://browsehappy.com">立即升级</a>&nbsp;|&nbsp;<a target="_blank" href="https://www.modern.ie/en-us/ie6countdown">ie6countdown</a>
+</div>
+</body>
+</html>

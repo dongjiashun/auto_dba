@@ -1,0 +1,83 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "数据变更")
+    #parse("include/head.vm")
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .CodeMirror {
+            border: 1px solid #ccc;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    #parse("include/navbar.vm")
+
+    #@pageBar2()
+    <ol class="breadcrumb">
+        <li><a href="$basePath/">主页</a></li>
+        <li class="active">数据变更</li>
+    </ol>
+    <div class="toolbar">
+        <a tabindex="0" class="btn btn-sm btn-warning" role="button" data-toggle="popover" data-trigger="focus" data-placement="left"
+           title="注意事项" data-html="true"
+           data-content="<ul class='list-unstyled' style='width: 400px'>
+<li>1.DML操作会自动备份；</li>
+<li>2.不支持关联删除、更新操作；</li>
+<li>3.工单结束后需要关闭流程；</li>
+</ul>">
+            <i class="fa"></i> 数据变更必读事项
+        </a>
+    </div>
+    #end
+    #@pageContent()
+
+    <p class="lead">
+        <i class="fa fa-bank fa-fw"></i> 数据变更
+        <a class="text-muted small" target="_blank" href="$basePath/process_img/data-change.png" title="点击查看流程图"><i class="fa fa-file-image-o fa-fw"></i></a>
+    </p>
+
+    <hr>
+    <form id="data-change-form" action="#" method="post">
+        <div class="form-body" lang="zh-CN">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label"><span class="text-danger">*</span> 标题</label>
+                        <input name="title" type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">描述</label>
+                        <textarea name="reason" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div id="add-ds" class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <a href="javascript:;"><i class="fa fa-plus-square fa-fw"></i> 增加数据源</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-danger form-msg" style="margin-bottom: 15px"></div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">提交</button>
+            <a href="$basePath/" class="btn btn-default">取消</a>
+        </div>
+    </form>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/task/dataChange.js")
+</body>
+</html>

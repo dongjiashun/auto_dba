@@ -1,0 +1,68 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "查询表结构")
+    #parse("include/head.vm")
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar1()
+    <li><a href="$basePath/ds/manage">我的数据源</a></li>
+    <li class="active">查询表结构</li>
+    #end
+    #@pageContent()
+        <p class="lead"><i class="fa fa-table fa-fw"></i> 查询表结构</p>
+        <div class="form-body" lang="zh-CN">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">环境</label>
+                        <select name="ds-env" class="form-control">
+                            <option value="prod">正式环境</option>
+                            <option value="test">测试环境</option>
+                            <option value="dev">开发环境</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">数据源</label>
+                        <select name="ds-name" class="form-control" data-placeholder="请选择数据源">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">类型</label>
+                        <select name="ds-type" class="form-control">
+                            <option value="">请选择类型</option>
+                            <option value="table">表</option>
+                            <option value="view">视图</option>
+                            <!--
+                            <option value="procedure">存储过程</option>
+                            <option value="function">函数</option>
+                            <option value="trigger">触发器</option>
+                            <option value="package">包</option>
+                            -->
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">名称列表</label>
+                        <select name="ds-list" class="form-control" data-placeholder="请选择名称">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-warning small">注意：cobar库显示的是单个分片的数据</div>
+        <hr>
+        <div class="struct"></div>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/ds/ds.js")
+</body>
+</html>

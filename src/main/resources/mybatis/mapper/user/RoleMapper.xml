@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="RoleMapper">
+    <resultMap id="RoleMap" type="Role">
+        <id property="id" column="id" />
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <sql id="fields">id, `code`, `name`</sql>
+    <sql id="r_fields">r.id, r.`code`, r.`name`</sql>	
+
+    <select id="find" parameterType="int" resultMap="RoleMap">
+        SELECT <include refid="fields"/> FROM role WHERE id=#{id}
+    </select>
+
+    <select id="findByCode" parameterType="string" resultMap="RoleMap">
+        SELECT <include refid="fields"/> FROM role WHERE `code`=#{code}
+    </select>
+
+    <select id="findAll" resultMap="RoleMap">
+        SELECT <include refid="fields"/> FROM role
+    </select>
+
+    <select id="findByUser" parameterType="int" resultMap="RoleMap">
+        SELECT <include refid="r_fields"/> FROM role r, user_role ur
+        WHERE ur.user_id = #{id} AND r.id = ur.role_id
+    </select>
+
+    <select id="findByUsername" parameterType="string" resultMap="RoleMap">
+        SELECT <include refid="r_fields"/> FROM `user` u, role r, user_role ur
+        WHERE ur.user_id = u.id AND ur.role_id = r.id AND u.username=#{username}
+    </select>
+</mapper>

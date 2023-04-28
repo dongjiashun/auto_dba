@@ -1,0 +1,78 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "数据源管理")
+    #parse("include/head.vm")
+    <style type="text/css">
+        form .panel {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        @media (min-width: 992px) {
+            .modal-lg {
+                width: 980px;
+            }
+        }
+    </style>
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar2()
+    <ol class="breadcrumb">
+        <li><a href="$basePath/">主页</a></li>
+        <li class="active">数据源管理</li>
+    </ol>
+    <div class="toolbar">
+        <a id="ds-add" href="javascript:;" class="btn btn-info btn-sm"><i class="fa fa-plus-square-o"></i> 添加数据源</a>
+    </div>
+    #if($sec.has("USER_MANAGE"))
+        <div class="toolbar">
+            <a target="_blank" class="btn btn-warning btn-sm" href="$basePath/datasource/authtoall" danger="danger">管理员授权</a>
+        </div>
+    #end
+    #end
+    #@pageContent()
+    <div id="toolbar" class="clearfix">
+        <p class="lead pull-left"><i class="fa fa-database fa-fw"></i> 数据源管理&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        <div class="btn-group pull-left" data-toggle="buttons">
+            <label class="btn btn-default active">
+                <input type="radio" name="env" value="prod" autocomplete="off" checked>正式环境
+            </label>
+            <label class="btn btn-default">
+                <input type="radio" name="env" value="test" autocomplete="off">测试环境
+            </label>
+            <label class="btn btn-default">
+                <input type="radio" name="env" value="dev" autocomplete="off">开发环境
+            </label>
+        </div>
+    </div>
+    <table id="datasources" class="table table-striped"
+           data-toolbar="#toolbar"
+           data-page-list="[10,25,50]"
+           data-pagination="true"
+           data-search="true"
+           data-show-refresh="true"
+           data-show-columns="true"
+           data-show-toggle="true"
+           data-url="$basePath/datasource/list?env=prod"
+           data-unique-id="id">
+        <thead>
+        <tr>
+            <th data-field="name" data-sortable="true">数据源名称</th>
+            <th data-field="type">数据库类型</th>
+            <th data-field="sid" data-sortable="true">SID</th>
+            <th data-field="host" data-searchable="false">IP地址</th>
+            <th data-field="port" data-searchable="false">端口号</th>
+            <th data-field="username" data-searchable="false">用户名</th>
+            <th data-field="create" data-sortable="true" data-searchable="false" data-formatter="timeFormatter" data-width="150">创建时间</th>
+            <th data-field="op" data-searchable="false" data-formatter="opFormatter" data-width="90">操作</th>
+        </tr>
+        </thead>
+    </table>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/datasource/datasource.js")
+</body>
+</html>

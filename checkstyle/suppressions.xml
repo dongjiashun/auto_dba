@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+        "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+        "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+    <suppress checks="[a-zA-Z0-9]*" files="Main\.java" />
+    <suppress checks="[a-zA-Z0-9]*" files=".*Config\.java" />
+    <suppress checks="[a-zA-Z0-9]*" files=".*Utils\.java" />
+    <suppress checks="[a-zA-Z0-9]*" files=".*Util\.java" />
+    <suppress checks="[a-zA-Z0-9]*" files="AbstractSQLService\.java" />
+    <suppress checks="[a-zA-Z0-9]*" files="com.autodb.ops.dms.domain.sqlcheck.*\.java" />
+    <suppress checks="[a-zA-Z0-9]*" files="com.autodb.ops.dms.common.rule.*\.java" />
+    <suppress checks="[a-zA-Z0-9]*" files="com.autodb.ops.dms.common.sqlparse.*\.java" />
+</suppressions>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DsApplyMapper">
+    <resultMap id="DsApplyMap" type="DsApply">
+        <id property="id" column="id" />
+        <result property="task.id" column="task_id"/>
+        <result property="key" column="key"/>
+        <result property="reason" column="reason"/>
+
+        <result property="dsEnv" column="ds_env"/>
+        <result property="dsName" column="ds_name"/>
+
+        <result property="assessor" column="assessor"/>
+        <result property="assessTime" column="assess_time"/>
+        <result property="assessType" column="assess_type"/>
+        <result property="assessRemark" column="assess_remark"/>
+    </resultMap>
+
+    <sql id="fields">id, task_id, `key`, ds_env, ds_name, `reason`, `assessor`, assess_time, assess_type, assess_remark</sql>
+
+    <insert id="add" parameterType="DsApply" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO task_ds_apply (<include refid="fields"/>)
+        VALUES (default, #{task.id}, #{key}, #{dsEnv}, #{dsName}, #{reason}, #{assessor}, #{assessTime}, #{assessType}, #{assessRemark});
+    </insert>
+
+    <update id="update" parameterType="DsApply">
+        UPDATE task_ds_apply
+        SET `reason`=#{reason}, `assessor`=#{assessor}, assess_time=#{assessTime}, assess_type=#{assessType}, assess_remark=#{assessRemark}
+        WHERE id=#{id}
+    </update>
+
+    <select id="findByTask" parameterType="int" resultMap="DsApplyMap">
+        SELECT <include refid="fields"/> FROM task_ds_apply
+        WHERE task_id=#{taskId}
+        ORDER BY `key`
+    </select>
+
+    <select id="findByTaskAndKey" parameterType="map" resultMap="DsApplyMap">
+        SELECT <include refid="fields"/> FROM task_ds_apply
+        WHERE task_id=#{taskId} AND `key`=#{key}
+    </select>
+</mapper>

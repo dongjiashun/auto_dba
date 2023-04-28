@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="InstanceParametersMapper">
+    <resultMap id="InstanceParametersMap" type="InstanceParameters">
+        <id property="id" column="id" />
+        <result property="dbinstance" column="dbinstance"/>
+        <result property="username" column="username"/>
+
+        <result property="passwd" column="passwd"/>
+        <result property="parameters" column="parameters"/>
+
+    </resultMap>
+
+    <sql id="fields">id, `dbinstance`, `username`, `passwd`, `parameters`</sql>
+
+    <select id="find" parameterType="int" resultMap="InstanceParametersMap">
+        SELECT <include refid="fields"/> FROM instance_parameters WHERE id=#{id}
+    </select>
+
+    <select id="findAll" parameterType="int" resultMap="InstanceParametersMap">
+        SELECT <include refid="fields"/> FROM instance_parameters ORDER BY `dbinstance` ASC
+    </select>
+
+    <select id="findByEnv" parameterType="string" resultMap="InstanceParametersMap">
+        SELECT <include refid="fields"/> FROM instance_parameters WHERE env=#{env} ORDER BY `dbinstance` ASC
+    </select>
+
+    <select id="findByDbinstance" parameterType="map" resultMap="InstanceParametersMap">
+        SELECT <include refid="fields"/> FROM instance_parameters WHERE dbinstance=#{dbinstance} ORDER BY `dbinstance` ASC
+    </select>
+
+    <insert id="add" parameterType="InstanceParameters" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO instance_parameters (<include refid="fields"/>)
+        VALUES (default, #{dbinstance}, #{username}, #{passwd}, #{parameters});
+    </insert>
+
+    <update id="update" parameterType="InstanceParameters">
+        UPDATE instance_parameters
+        SET `dbinstance`=#{dbinstance},username=#{username},passwd=#{passwd},parameters=#{parameters}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM instance_parameters WHERE id=#{id}
+    </delete>
+</mapper>

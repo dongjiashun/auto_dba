@@ -1,0 +1,138 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "所有历史任务")
+    #parse("include/head.vm")
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()所有历史任务#end
+    #@pageContent()
+    <p class="lead"><i class="fa fa-calendar fa-fw"></i> 所有历史任务</p>
+    <hr>
+    <form id="process-all-form" action="#" method="post">
+        <div class="form-body" lang="zh-CN">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select name="env" class="form-control">
+                            <option value="">全部环境</option>
+                            <option value="prod">正式环境</option>
+                            <option value="test">测试环境</option>
+                            <option value="dev">开发环境</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select name="datasource" class="form-control" data-placeholder="全部数据源">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select name="process" class="form-control">
+                            <option value="">全部任务类型</option>
+                            <option value="ds-apply">数据源申请</option>
+                            <option value="data-export">数据导出</option>
+                            <option value="data-change">数据变更</option>
+                            <option value="struct-change">结构变更</option>
+                            <option value="schema-apply">创建数据源</option>
+                            <option value="canal-apply">Canal同步</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class='input-group'>
+                            <span class="input-group-addon">开始时间</span>
+                            <input name="from" type='text' class="form-control"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class='input-group'>
+                            <span class="input-group-addon">结束时间</span>
+                            <input name="to" type='text' class="form-control"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <select name="taskState" class="form-control">
+                            <option value="">任务状态</option>
+                            <option value="adjust">等待调整</option>
+                            <option value="audit">等待审核</option>
+                            <option value="waiting">等待执行</option>
+                            <option value="downloadData">下载数据</option>
+                            <option value="result">查看结果</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <select name="finished" class="form-control">
+                            <option value="">全部状态</option>
+                            <option value="0">处理中</option>
+                            <option value="1">已完成</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <select name="user" class="form-control" data-placeholder="工号">
+                    </select>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-8">
+                <div class="form-actions text-right">
+                    <button type="submit" class="btn btn-primary">查询</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <table id="process-all" class="table table-striped"
+           data-page-list="[10,20,50]"
+           data-pagination="true"
+           data-side-pagination="server"
+           data-url="$basePath/task/all-data"
+           data-unique-id="id">
+        <thead>
+        <tr>
+            <th data-field="taskBiz.type" data-formatter="taskTypeFormatter">任务类型</th>
+            <th data-field="taskBiz.startUser.username" data-formatter="taskTypeFormatter">工号</th>
+            <th data-field="taskBiz.startUser.nickname" data-formatter="taskTypeFormatter">姓名</th>
+            <th data-field="taskBiz.startTime" data-searchable="false" data-formatter="timeFormatter">提交时间</th>
+            <th data-field="taskBiz.endTime" data-searchable="false" data-formatter="timeFormatter">结束时间</th>
+            <th data-field="status" data-formatter="taskStatusFormatter">状态</th>
+            <th data-field="taskBiz.info" data-formatter="textFormatter">数据源</th>
+            <th data-field="taskBiz.explain" data-searchable="false" data-formatter="textFormatter">说明</th>
+            <th data-field="op" data-searchable="false" data-formatter="myOpFormatter" data-width="50">操作</th>
+        </tr>
+        </thead>
+    </table>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/task/all.js")
+</body>
+</html>

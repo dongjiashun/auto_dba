@@ -1,0 +1,40 @@
+<div class="well struct-change-ds" id="{{=it.id}}">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <a class="pull-right text-muted del-ds" href="javascript:;"><i class="fa fa-minus-circle"></i></a>
+                <strong>数据源</strong>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <select name="ds-env" class="form-control">
+                    <option value="prod">正式环境</option>
+                    <option value="test">测试环境</option>
+                    <option value="dev">开发环境</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <select name="ds-name" class="form-control" data-placeholder="请选择数据源">
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <select name="ds-change-type" class="form-control">
+                    <option value="0">ONLY CREATE DDL</option>
+                    <option value="1">MIXED DDL</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group" style="margin-bottom: 0">
+                <label class="control-label"><span class="text-danger">*</span> 结构变更SQL</label>
+                <textarea name="sql" class="form-control" rows="1"></textarea>
+                <span class="help-block small text-muted"><code>有对应测试环境数据源</code>的结构变更请走右上角上线流程</span>
+            </div>
+        </div>
+    </div>
+</div>

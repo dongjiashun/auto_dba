@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StructChangeMapper">
+    <resultMap id="StructChangeMap" type="StructChange">
+        <id property="id" column="id" />
+        <result property="task.id" column="task_id"/>
+        <result property="key" column="key"/>
+        <result property="reason" column="reason"/>
+        <result property="dsEnv" column="ds_env"/>
+        <result property="dsName" column="ds_name"/>
+
+        <result property="changeType" column="change_type"/>
+        <result property="sql" column="sql"/>
+        <result property="reference" column="reference"/>
+
+        <result property="executor" column="executor"/>
+        <result property="executeTime" column="execute_time"/>
+        <result property="executeType" column="execute_type"/>
+        <result property="executeRemark" column="execute_remark"/>
+        <result property="executeStatus" column="execute_status"/>
+        <result property="executeHash" column="execute_hash"/>
+
+        <result property="assessor" column="assessor"/>
+        <result property="assessTime" column="assess_time"/>
+        <result property="assessType" column="assess_type"/>
+        <result property="assessRemark" column="assess_remark"/>
+
+        <result property="online" column="online" />
+        <result property="lastChangeId" column="last_change_id" />
+        <result property="lastChangeTime" column="last_change_time" />
+    </resultMap>
+
+    <sql id="fields">id, task_id, `key`, `reason`, ds_env, ds_name, change_type, `sql`, `reference`, `executor`, `execute_time`, `execute_type`, `execute_remark`, `execute_status`, `execute_hash`, `assessor`, assess_time, assess_type, assess_remark, online, last_change_id, last_change_time</sql>
+
+    <insert id="add" parameterType="StructChange" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO task_struct_change (<include refid="fields"/>)
+        VALUES (default, #{task.id}, #{key}, #{reason}, #{dsEnv}, #{dsName}, #{changeType}, #{sql}, #{reference}, #{executor}, #{executeTime}, #{executeType}, #{executeRemark}, #{executeStatus}, #{executeHash}, #{assessor}, #{assessTime}, #{assessType}, #{assessRemark}, #{online}, #{lastChangeId}, #{lastChangeTime});
+    </insert>
+
+    <update id="update" parameterType="StructChange">
+        UPDATE task_struct_change
+        SET `reason`=#{reason}, `sql`=#{sql},`reference`=#{reference},`executor`=#{executor},`execute_time`=#{executeTime},`execute_type`=#{executeType},`execute_remark`=#{executeRemark},`execute_status`=#{executeStatus},`execute_hash`=#{executeHash},`assessor`=#{assessor}, assess_time=#{assessTime}, assess_type=#{assessType}, assess_remark=#{assessRemark}
+        WHERE id=#{id}
+    </update>
+
+    <select id="findByTask" parameterType="int" resultMap="StructChangeMap">
+        SELECT <include refid="fields"/> FROM task_struct_change
+        WHERE task_id=#{taskId}
+        ORDER BY `key`
+    </select>
+
+    <select id="findByTaskAndKey" parameterType="map" resultMap="StructChangeMap">
+        SELECT <include refid="fields"/> FROM task_struct_change
+        WHERE task_id=#{taskId} AND `key`=#{key}
+    </select>
+
+    <select id="findById" parameterType="map" resultMap="StructChangeMap">
+        SELECT <include refid="fields"/> FROM task_struct_change
+        WHERE id=#{id}
+    </select>
+
+    <select id="findByKey" parameterType="string" resultMap="StructChangeMap">
+        SELECT <include refid="fields"/> FROM task_struct_change
+        WHERE `key`=#{key}
+    </select>
+
+    <select id="findByOnline" parameterType="map" resultMap="StructChangeMap">
+        SELECT <include refid="fields"/> FROM task_struct_change
+        <choose>
+            <when test="online == null">
+                WHERE `key`=#{key} AND execute_type != 0
+            </when>
+            <otherwise>
+                <where>
+                    <if test="key != null">
+                        `key` = #{key} AND execute_type != 0
+                    </if>
+                    <if test="online.lastChangeId != null">
+                        AND `id` > #{online.lastChangeId} - 100
+                    </if>
+                    <if test="online.lastChangeTime != null">
+                        AND execute_time > #{online.lastChangeTime}
+                    </if>
+                </where>
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="frequentChange" parameterType="map" resultType="int">
+        SELECT tsc.id
+        FROM task_struct_change tsc, task_biz tb
+        WHERE tsc.task_id = tb.id AND tb.start_user = #{user}
+            AND tsc.`key` IN <foreach collection="dsList" item="item" open="(" separator="," close=")">#{item}</foreach>
+            AND tb.start_time >= #{time}
+    </select>
+
+    <select id="inProcessOnline" parameterType="string" resultMap="TaskBizMapper.TaskBizMap">
+        SELECT tb.*
+        FROM task_struct_change tsc, task_biz tb
+        WHERE tsc.`key` = #{key} AND tsc.online = 1
+              AND tsc.task_id = tb.id AND tb.status = 'process'
+    </select>
+</mapper>

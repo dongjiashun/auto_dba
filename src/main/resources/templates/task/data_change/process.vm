@@ -1,0 +1,32 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "数据变更详情")
+    #parse("include/head.vm")
+    $static.referMenu("/")
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+            border-bottom-width: 1px;
+        }
+    </style>
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()数据变更详情#end
+    #@pageContent()
+        <p class="lead"><i class="fa fa-bank fa-fw"></i> 数据变更详情</p>
+        <hr>
+        #parse("task/_info.vm")
+        #parse("task/data_change/tasks.vm")
+        #parse("task/_activities.vm")
+        #parse("task/_footer.vm")
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/task/process.js")
+</body>
+</html>

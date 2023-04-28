@@ -1,0 +1,36 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "角色管理")
+    #parse("include/head.vm")
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()角色管理#end
+    #@pageContent()
+    <p id="roles-toolbar" class="lead"><i class="fa fa-users fa-fw"></i> 角色列表</p>
+    <table class="table table-striped"
+           data-toggle="table"
+           data-toolbar="#roles-toolbar"
+           data-page-list="[10,15,20]"
+           data-pagination="true"
+           data-search="true"
+           data-show-toggle="true"
+           data-show-refresh="true"
+           data-url="$basePath/user/role/list"
+           data-unique-id="id">
+        <thead>
+        <tr>
+            <th data-field="code">角色</th>
+            <th data-field="name">角色名称</th>
+            <th data-field="privileges" data-formatter="privilegesFormatter">角色权限</th>
+        </tr>
+        </thead>
+    </table>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/user/role.js")
+</body>
+</html>

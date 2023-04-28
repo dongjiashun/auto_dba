@@ -1,0 +1,78 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "调整数据变更申请")
+    #parse("include/head.vm")
+    $static.referMenu("/")
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .CodeMirror {
+            border: 1px solid #ccc;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()调整数据变更申请#end
+    #@pageContent()
+    <p class="lead"><i class="fa fa-bank fa-fw"></i> 调整数据变更申请</p>
+    <hr>
+    <form id="data-change-adjust-form" class="form-horizontal" data-id="$task.taskId">
+        <div class="well">
+            <div class="form-group">
+                <label class="col-sm-2 text-right">申请时间:</label>
+                <div class="col-sm-9">$date.format($task.taskBiz.startTime)</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 text-right">标题:</label>
+                <div class="col-sm-9">$task.taskBiz.explain</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 text-right">环境:</label>
+                <div class="col-sm-3">$static.env($task.taskBiz.entity.dsEnv)</div>
+                <label class="col-sm-2 text-right">数据源:</label>
+                <div class="col-sm-4">$!task.taskBiz.entity.dsName</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 text-right">审核未通过原因:</label>
+                <div class="col-sm-9">$!task.taskBiz.entity.assessRemark</div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <label class="col-sm-2 text-right"><span class="text-danger">*</span> 是否重新申请:</label>
+                <div class="col-sm-4">
+                    <select name="apply" class="form-control">
+                        <option value="true">重新申请</option>
+                        <option value="false">放弃申请</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 text-right"><span class="text-danger">*</span> 数据变更SQL:</label>
+                <div class="col-sm-9">
+                    <textarea name="sql" class="form-control" rows="1">$!task.taskBiz.entity.sql</textarea>
+                    <span class="help-block small text-muted">多条SQL使用<code>;</code>分割</span>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0">
+                <label class="col-sm-2 text-right"><span class="text-danger">*</span> 重新申请描述:</label>
+                <div class="col-sm-9">
+                    <textarea name="reason" class="form-control" rows="2">$!task.taskBiz.entity.reason</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="text-danger form-msg" style="margin-bottom: 15px"></div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">提交</button>
+        </div>
+    </form>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/task/dataChangeAdjust.js")
+</body>
+</html>

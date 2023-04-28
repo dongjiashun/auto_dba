@@ -1,0 +1,87 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "结构变更")
+    #parse("include/head.vm")
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .CodeMirror {
+            border: 1px solid #ccc;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar2()
+    <ol class="breadcrumb">
+        <li><a href="$basePath/">主页</a></li>
+        <li class="active">结构变更</li>
+    </ol>
+    <div class="toolbar">
+        <a tabindex="0" class="btn btn-sm btn-warning" role="button" data-toggle="popover" data-trigger="focus" data-placement="left"
+           title="注意事项" data-html="true"
+           data-content="<ul class='list-unstyled' style='width: 400px'>
+<li>1.DDL除特殊场景统一放在凌晨3点到5点处理；</li>
+<li>2.同一个表的DDL，请使用一个SQL完成；</li>
+<li>3.表结构名字尽量不要改动；</li>
+<li>4.枚举型字段必须注明字段每个值的含义；</li>
+<li>6.工单结束后需要关闭流程；</li>
+</ul>">
+            <i class="fa"></i> 提交变更必读事项
+        </a>
+           <a tabindex="1" class="btn btn-sm btn-info" role="button" href="https://confluence.maopp.cn/pages/viewpage.action?pageId=11240256" target="_blank">创建数据库走邮件流程规范参照</a>
+  </div>
+    #*<div class="toolbar">
+        <a href="$basePath/task/struct-change/online" class="btn btn-info btn-sm"><i class="fa fa-cloud-upload"></i> 上线</a>
+    </div>*#
+    #end
+    #@pageContent()
+    <p class="lead">
+        <i class="fa fa-cubes fa-fw"></i> 结构变更
+        <a class="text-muted small" target="_blank" href="$basePath/process_img/struct-change.png" title="点击查看流程图"><i class="fa fa-file-image-o fa-fw"></i></a>
+    </p>
+    <hr>
+    <form id="struct-change-form" action="#" method="post">
+        <div class="form-body" lang="zh-CN">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label"><span class="text-danger">*</span> 标题</label>
+                        <input name="title" type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">描述</label>
+                        <textarea name="reason" class="form-control" rows="2"></textarea>
+                        <span class="help-block small text-muted" style="margin-bottom: 0">索引调整相关的ALTER SQL请务必提供相应的待优化的SQL</span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div id="add-ds" class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <a href="javascript:;"><i class="fa fa-plus-square fa-fw"></i> 增加数据源</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-danger form-msg" style="margin-bottom: 15px"></div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">提交</button>
+            <a href="$basePath/" class="btn btn-default">取消</a>
+        </div>
+    </form>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/task/structChange.js")
+</body>
+</html>

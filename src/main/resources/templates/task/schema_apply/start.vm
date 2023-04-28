@@ -1,0 +1,116 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "创建数据源申请")
+    #parse("include/head.vm")
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()创建数据源申请#end
+    #@pageContent()
+    <p class="lead">
+        <i class="fa fa-building fa-fw"></i> 创建数据源申请
+        <a class="text-muted small" target="_blank" href="$basePath/process_img/schema-apply.png" title="点击查看流程图"><i class="fa fa-file-image-o fa-fw"></i></a></p>
+    <hr>
+    <form id="schema-apply-form" action="#" method="post">
+        <div class="form-body" lang="zh-CN">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">环境</label>
+                        <select name="env" class="form-control">
+                            <option value="prod">正式环境</option>
+                            <option value="test">测试环境</option>
+                            <option value="dev">开发环境</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">产品线</label>
+                        <select name="product" class="form-control">
+                            #foreach($product in $products)
+                                <option value="$product">$product</option>
+                            #end
+                            <option value="">其他(手动输入)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">&nbsp;</label>
+                        <input name="product-other" class="form-control" type="text" placeholder="其他产品线输入">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label"><span class="text-danger">*</span> 数据源名称(SID)</label>
+                        <div class="input-group">
+                            <input name="sid" class="form-control" type="text" aria-required="true">
+                            <div name="sid-available" class="input-group-addon" title="点击查询数据源名称是否可用" role="button">是否可用</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">项目场景</label>
+                        <select name="scene" class="form-control">
+                            #foreach($scene in $scenes)
+                                <option value="$scene">$scene</option>
+                            #end
+                            <option value="">其他(手动输入)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">&nbsp;</label>
+                        <input name="scene-other" class="form-control" type="text" placeholder="其他项目场景输入">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label"><span class="text-danger">*</span> 项目描述</label>
+                        <textarea name="product-desc" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">
+                            <span class="text-danger">*</span> 容量规划描述
+                            <a href="javascript:;" class="text-muted" data-toggle="popover" data-trigger="focus" title="" data-content="<p style='width:360px'>1. 表个数</p><p>2. 表的半年内总共行数</p><p>3. 表行数最多的top 3</p><p>4. 读写比例</p><p>5. tps</p>" data-html="true" data-placement="right" data-original-title="容量规划描述说明">
+                                <i class="fa fa-info-circle text-danger"></i>
+                            </a>
+                        </label>
+                        <textarea name="capacity-desc" class="form-control" rows="3" placeholder="请点击说明图标仔细阅读容量规划说明"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">分库分表描述</label>
+                        <textarea name="split-desc" class="form-control" rows="3" placeholder="不需要分库分表请忽略该项"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group text-danger form-msg"></div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">申请</button>
+            <a href="$basePath/" class="btn btn-default">取消</a>
+        </div>
+    </form>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/task/schemaApply.js")
+</body>
+</html>

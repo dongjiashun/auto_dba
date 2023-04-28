@@ -1,0 +1,24 @@
+<div id="ds-auth">
+    <p class="ds-auth-toolbar">
+        <button class="btn btn-danger btn-sm" type="button" name="auth-del" title="删除">
+            <i class="fa fa-times fa-fw"></i> 删除
+        </button>
+    </p>
+    <table class="table table-striped"
+           data-toolbar=".ds-auth-toolbar"
+           data-page-list="[10,25,50]"
+           data-pagination="true"
+           data-search="true"
+           data-show-refresh="true"
+           data-unique-id="authId">
+        <thead>
+        <tr>
+            <th data-checkbox="true"></th>
+            <th data-field="env" data-sortable="true">环境</th>
+            <th data-field="name" data-sortable="true">数据源</th>
+            <th data-field="role" data-sortable="false">角色</th>
+            <th data-field="auth" data-searchable="false" data-sortable="true" data-formatter="timeFormatter">授权时间</th>
+        </tr>
+        </thead>
+    </table>
+</div>

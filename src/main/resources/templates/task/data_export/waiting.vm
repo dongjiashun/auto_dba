@@ -1,0 +1,74 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "数据导出定时执行等待")
+    #parse("include/head.vm")
+    $static.referMenu("/")
+    <style type="text/css">
+        .CodeMirror {
+            border: 1px solid #ddd;
+            height: auto;
+            background-color: #fbfbfb;
+        }
+    </style>
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()数据导出定时执行等待#end
+    #@pageContent()
+    <p class="lead"><i class="fa fa-floppy-o fa-fw"></i> 数据导出定时执行等待</p>
+    <hr>
+    <div style="font-size: 2em" class="text-center text-muted">
+        <i class="fa fa-clock-o fa-fw"></i> $!date.format($task.executeTime)
+    </div>
+    <hr>
+    <form id="data-export-audit-form" class="form-horizontal" data-id="$task.taskId" data-process-id="$task.taskBiz.processInstanceId">
+        <div class="well">
+            <div class="form-group">
+                <label class="col-sm-2 text-right">申请人:</label>
+                <div class="col-sm-3">$task.taskBiz.startUser.username</div>
+                <label class="col-sm-2 text-right">申请时间:</label>
+                <div class="col-sm-4">$date.format($task.taskBiz.startTime)</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 text-right">标题:</label>
+                <div class="col-sm-9">$task.taskBiz.explain</div>
+            </div>
+            #if($task.taskBiz.entity.reason != "")
+            <div class="form-group">
+                <label class="col-sm-2 text-right">描述:</label>
+                <div class="col-sm-9">$!task.taskBiz.entity.reason</div>
+            </div>
+            #end
+            <hr>
+            <div class="form-group">
+                <label class="col-sm-2 text-right">环境:</label>
+                <div class="col-sm-3">$static.env($task.taskBiz.entity.dsEnv)</div>
+                <label class="col-sm-2 text-right">数据源:</label>
+                <div class="col-sm-4">$!task.taskBiz.entity.dsName</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 text-right">是否脱敏:</label>
+                <div class="col-sm-4">
+                    #if($task.taskBiz.entity.security)
+                        <span class="label label-success">是</span>
+                    #else
+                        <span class="label label-danger">否</span>
+                    #end
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 text-right">导出SQL:</label>
+                <div class="col-sm-9">
+                    <textarea name="sql" class="form-control" rows="2">$!task.taskBiz.entity.sql</textarea></div>
+            </div>
+        </div>
+    </form>
+    <a href="$basePath/" class="btn btn-default">返回</a>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/basic.js")
+</body>
+</html>

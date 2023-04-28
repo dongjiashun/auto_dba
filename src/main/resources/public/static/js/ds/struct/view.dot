@@ -1,0 +1,95 @@
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <td>名称</td>
+            <td>视图定义</td>
+            <td>可更新</td>
+            <td>检查选项</td>
+            <td>SQL安全性</td>
+            <td>创建者</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{=it.info.TABLE_NAME || ''}}</td>
+            <td>
+                <a title="视图定义" data-info-large="true" data-info="{{=it.info.VIEW_DEFINITION || ''}}">点击查看</a>
+            </td>
+            <td>{{=it.info.IS_UPDATABLE || ''}}</td>
+            <td>{{=it.info.CHECK_OPTION || ''}}</td>
+            <td>{{=it.info.SECURITY_TYPE || ''}}</td>
+            <td>{{=it.info.DEFINER || ''}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<hr>
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#tb-struct" aria-controls="home" role="tab" data-toggle="tab">表结构</a></li>
+        <li role="presentation"><a href="#tb-index" aria-controls="profile" role="tab" data-toggle="tab">索引</a></li>
+    </ul>
+    <div class="tab-content" style="margin-top: -1px">
+        <div role="tabpanel" class="tab-pane active" id="tb-struct">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <td>列名</td>
+                            <td>类型</td>
+                            <td>默认值</td>
+                            <td>键类型</td>
+                            <td>是否可空</td>
+                            <td>自增列</td>
+                            <td>注释</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {{~it.struct :value:index}}
+                        <tr>
+                            <td>{{=value.COLUMN_NAME || ''}}</td>
+                            <td>{{=value.COLUMN_TYPE || ''}}</td>
+                            <td>{{=value.COLUMN_DEFAULT || ''}}</td>
+                            <td>{{=value.COLUMN_KEY || ''}}</td>
+                            <td>{{=value.IS_NULLABLE || ''}}</td>
+                            <td>{{=value.AUTO_INCREMENT || ''}}</td>
+                            <td>{{=value.COLUMN_COMMENT || ''}}</td>
+                        </tr>
+                    {{~}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tb-index">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <td>索引名称</td>
+                        <td>索引列</td>
+                        <td>是否唯一</td>
+                        <td>是否可空</td>
+                        <td>注释</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{~it.index :value:index}}
+                        <tr>
+                            <td>{{=value.INDEX_NAME || ''}}</td>
+                            <td>{{=value.COLUMN_NAME || ''}}</td>
+                            <td>{{? value.NON_UNIQUE }}否{{??}}是{{?}}</td>
+                            <td>{{=value.NULLABLE || ''}}</td>
+                            <td>{{=value.COMMENT || ''}}</td>
+                        </tr>
+                    {{~}}
+                    {{? !it.index || it.index.length == 0 }}
+                        <tr>
+                            <td colspan="5" class="text-center">暂无相关数据</td>
+                        </tr>
+                    {{?}}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

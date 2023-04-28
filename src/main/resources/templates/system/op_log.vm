@@ -1,0 +1,96 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "操作日志")
+    #parse("include/head.vm")
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()操作日志#end
+    #@pageContent()
+    <p class="lead"><i class="fa fa-file-text-o fa-fw"></i> 操作日志</p>
+    <hr>
+    <form id="log-form" action="#" method="post">
+        <div class="form-body" lang="zh-CN">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select name="env" class="form-control">
+                            <option value="">全部环境</option>
+                            <option value="prod">正式环境</option>
+                            <option value="test">测试环境</option>
+                            <option value="dev">开发环境</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select name="sid" class="form-control" data-placeholder="全部数据源">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select name="user" class="form-control" data-placeholder="操作人">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class='input-group'>
+                            <span class="input-group-addon">开始时间</span>
+                            <input name="from" type='text' class="form-control"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class='input-group'>
+                            <span class="input-group-addon">结束时间</span>
+                            <input name="to" type='text' class="form-control"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-actions text-right">
+                        <button type="submit" class="btn btn-primary">查询</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <table id="log-table" class="table table-striped"
+           data-page-list="[15,50,100]"
+           data-page-size="15"
+           data-pagination="true"
+           data-side-pagination="server"
+           data-url="$basePath/system/op-log-data"
+           data-unique-id="id">
+        <thead>
+        <tr>
+            <th data-field="env" data-formatter="envFormatter">环境</th>
+            <th data-field="sid">SID</th>
+            <th data-field="typeString">操作类型</th>
+            <th data-field="operator">操作人</th>
+            <th data-field="time" data-formatter="timeFormatter">操作时间</th>
+            <th data-field="ip">IP</th>
+            <th data-field="content" data-formatter="textFormatter">详情</th>
+        </tr>
+        </thead>
+    </table>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/system/opLog.js")
+</body>
+</html>

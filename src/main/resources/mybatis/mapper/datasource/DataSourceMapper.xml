@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DataSourceMapper">
+    <resultMap id="DataSourceMap" type="DataSource">
+        <id property="id" column="id" />
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="env" column="env"/>
+
+        <result property="sid" column="sid"/>
+        <result property="host" column="host"/>
+        <result property="port" column="port"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+
+        <result property="sid2" column="sid2"/>
+        <result property="host2" column="host2"/>
+        <result property="port2" column="port2"/>
+        <result property="username2" column="username2"/>
+        <result property="password2" column="password2"/>
+
+        <result property="proxy.id" column="proxy_id"/>
+        <result property="proxyPort" column="proxy_port"/>
+        <result property="proxySid" column="proxy_sid"/>
+        <result property="proxyUsername" column="proxy_username"/>
+        <result property="proxyPassword" column="proxy_password"/>
+
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+        <result property="cobar" column="cobar"/>
+    </resultMap>
+
+    <sql id="fields">id, `name`, `type`, `env`, `sid`, `host`, `port`, username, password, sid2, host2, port2, username2, password2, proxy_id, proxy_port, proxy_sid, proxy_username, proxy_password, gmt_create, gmt_modified, cobar</sql>
+    <sql id="ds_fields">ds.id, ds.`name`, ds.`type`, ds.`env`, ds.`sid`, ds.`host`, ds.`port`, ds.username, ds.password, ds.sid2, ds.host2, ds.port2, ds.username2, ds.password2, ds.proxy_id, ds.proxy_port, ds.proxy_sid, ds.proxy_username, ds.proxy_password, ds.gmt_create, ds.gmt_modified, ds.cobar</sql>
+
+    <select id="find" parameterType="int" resultMap="DataSourceMap">
+        SELECT <include refid="fields"/> FROM datasource WHERE id=#{id}
+    </select>
+
+    <select id="findAll" parameterType="int" resultMap="DataSourceMap">
+        SELECT <include refid="fields"/> FROM datasource ORDER BY `name` ASC
+    </select>
+
+    <select id="findByEnv" parameterType="string" resultMap="DataSourceMap">
+        SELECT <include refid="fields"/> FROM datasource WHERE env=#{env} ORDER BY `name` ASC
+    </select>
+
+    <select id="findByProxy" parameterType="int" resultMap="DataSourceMap">
+        SELECT <include refid="fields"/> FROM datasource WHERE proxy_id IS NOT NULL AND proxy_id=#{proxyId} ORDER BY `name` ASC
+    </select>
+
+    <select id="findAuthByUser" parameterType="int" resultMap="DataSourceMap">
+        SELECT <include refid="ds_fields"/> FROM datasource ds, datasource_auth dsa
+        WHERE dsa.user_id=#{userId} AND ds.id=dsa.datasource_id
+    </select>
+
+    <select id="findUnAuthByUserEnv" parameterType="map" resultMap="DataSourceMap">
+        SELECT <include refid="ds_fields"/> FROM datasource ds
+        WHERE ds.env=#{env} AND NOT EXISTS (SELECT 1 FROM datasource_auth dsa WHERE dsa.datasource_id = ds.id AND dsa.user_id=#{userId})
+        ORDER BY ds.`name` ASC;
+    </select>
+
+    <select id="findByName" parameterType="string" resultMap="DataSourceMap">
+        SELECT <include refid="fields"/> FROM datasource WHERE `name`=#{name}
+    </select>
+
+    <select id="findBySid" parameterType="string" resultMap="DataSourceMap">
+        SELECT <include refid="fields"/> FROM datasource WHERE `sid`=#{sid}
+    </select>
+
+    <select id="findByEnvName" parameterType="map" resultMap="DataSourceMap">
+        SELECT <include refid="fields"/> FROM datasource WHERE env=#{env} AND `name`=#{name}
+    </select>
+
+    <select id="findByEnvSid" parameterType="map" resultMap="DataSourceMap">
+        SELECT <include refid="fields"/> FROM datasource WHERE env=#{env} AND `sid`=#{sid}
+    </select>
+
+    <select id="findByUser" parameterType="map" resultMap="DataSourceMap">
+        SELECT <include refid="ds_fields"/> FROM datasource ds, datasource_auth dsa
+        WHERE ds.id=#{id} AND dsa.user_id=#{userId} AND ds.id=dsa.datasource_id
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="DataSourceMap">
+        SELECT <include refid="fields"/> FROM datasource
+        WHERE id in <foreach collection="list" item="item" open="(" separator="," close=")">#{item}</foreach>
+    </select>
+
+    <insert id="add" parameterType="DataSource" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO datasource (<include refid="fields"/>)
+        VALUES (default, #{name}, #{type}, #{env}, #{sid}, #{host}, #{port}, #{username}, #{password}, #{sid2}, #{host2}, #{port2}, #{username2}, #{password2}, #{proxy.id}, #{proxyPort}, #{proxySid}, #{proxyUsername}, #{proxyPassword}, #{gmtCreate}, #{gmtModified}, #{cobar});
+    </insert>
+
+    <update id="update" parameterType="DataSource">
+        UPDATE datasource
+        SET `name`=#{name},`type`=#{type},env=#{env},sid=#{sid},host=#{host},port=#{port},username=#{username},password=#{password},sid2=#{sid2},host2=#{host2},port2=#{port2},username2=#{username2},proxy_id=#{proxy.id},proxy_port=#{proxyPort},proxy_sid=#{proxySid},proxy_username=#{proxyUsername},proxy_password=#{proxyPassword},password2=#{password2},gmt_modified=#{gmtModified}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM datasource WHERE id=#{id}
+    </delete>
+</mapper>

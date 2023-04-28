@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DataSourceCobarMapper">
+    <resultMap id="DataSourceCobarMap" type="DataSourceCobar">
+        <id property="id" column="id" />
+        <result property="dataSource.sid" column="sid"/>
+        <result property="dataSource.id" column="datasource_id"/>
+        <result property="metadata" column="metadata"/>
+    </resultMap>
+
+    <sql id="fields">`id`, `sid`, `datasource_id`, `metadata`</sql>
+
+    <select id="findByDataSource" parameterType="int" resultMap="DataSourceCobarMap">
+        SELECT <include refid="fields"/> FROM datasource_cobar WHERE `datasource_id`=#{id}
+    </select>
+</mapper>

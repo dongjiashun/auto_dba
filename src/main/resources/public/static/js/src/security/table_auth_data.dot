@@ -1,0 +1,17 @@
+<table class="table table-striped"
+        data-click-to-select="true"
+        data-unique-id="COLUMN_NAME">
+    <thead>
+    <tr>
+        <th data-field="STATE" data-checkbox="true"></th>
+        <th data-field="COLUMN_NAME">列名</th>
+        <th data-field="COLUMN_TYPE">类型</th>
+        <th data-field="COLUMN_DEFAULT">默认值</th>
+        <th data-field="COLUMN_KEY">键类型</th>
+        <th data-field="IS_NULLABLE">是否可空</th>
+        <th data-field="AUTO_INCREMENT">自增列</th>
+        <th data-field="COLUMN_COMMENT">注释</th>
+    </tr>
+    </thead>
+</table>
+<hr>

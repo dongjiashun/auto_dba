@@ -1,0 +1,28 @@
+<hr>
+<ul class="nav nav-tabs" role="tablist">
+{{~ it.sqls :value:index}}
+    <li role="presentation" {{? index == 0}}class="active"{{?}}><a href="#{{=it.id}}-{{=index+1}}" role="tab" data-toggle="tab">{{=it.explain ? '执行计划' : '查询结果'}}{{=index+1}}</a></li>
+{{~}}
+</ul>
+<div class="tab-content" style="margin-top: -1px">
+{{~ it.sqls :value:index}}
+    <div role="tabpanel" class="tab-pane {{? index == 0}}active{{?}}" id="{{=it.id}}-{{=index+1}}">
+        <table class="table table-striped result"
+               data-undefined-text="<code>null</code>"
+               data-page-list="[30,50,100,300,500]"
+               data-page-size="30"
+               data-smart-display="true"
+               data-pagination="true"
+               data-side-pagination="server"
+               data-response-handler="queryResponseHandler"
+               data-method="post"
+               data-sql="{{=encodeURIComponent(value)}}"
+               data-content-type="application/x-www-form-urlencoded"
+               data-url="{{=it.base}}/sql/{{=it.explain ? 'explain' : 'select'}}?datasource={{=it.dsId}}&record=1">
+            <thead>
+            <tr></tr>
+            </thead>
+        </table>
+    </div>
+{{~}}
+</div>

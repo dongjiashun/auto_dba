@@ -1,0 +1,17 @@
+<ul class="list-unstyled">
+  <li>K2结构变更提交是 <span class="label label-warning">FORWARD-ONLY</span> 的, 所选取变更以及之前的所有变更将一并提交</li>
+  <li>
+    <input type="radio" name="task" value="0" disabled="disabled">&nbsp;
+    ...
+  </li>
+  {{~it.data :value:index}}
+  <li>
+    <input type="radio" name="task" value="{{=value.id}}" checked="checked">&nbsp;
+    {{=it.moment(value.gmtCreate).format('YYYY-MM-DD hh:mm')}}&nbsp;
+    [{{=value.user.username}}]&nbsp;
+    <a class="stash" target="_blank" href="javascript:;" title="点击查看详情" data-sql="{{=value.sql}}">{{=value.title}}</a>
+  </li>
+  {{~}}
+</ul>
+<hr>
+<button id="online-btn" type="button" class="btn btn-success">确定时间点</button>

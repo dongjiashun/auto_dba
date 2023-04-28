@@ -1,0 +1,65 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "敏感数据授权")
+    #parse("include/head.vm")
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()查看授权详情#end
+    #@pageContent()
+    <p class="lead"><i class="fa fa-user-secret fa-fw"></i> 敏感数据授权</p>
+    <hr>
+    <div class="form-body" lang="zh-CN">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">环境</label>
+                    <select name="ds-env" class="form-control">
+                        <option value="prod">正式环境</option>
+                        <option value="test">测试环境</option>
+                        <option value="dev">开发环境</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">数据源</label>
+                    <select name="ds-name" class="form-control" data-placeholder="请选择数据源">
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">名称列表</label>
+                    <select name="ds-list" class="form-control" data-placeholder="请选择名称">
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div id="struct"></div>
+    <div class="form-body" lang="zh-CN">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label class="control-label"><span class="text-danger">*</span> 授权用户</label>
+                    <select name="users" class="form-control" multiple="multiple" data-placeholder="请选择要授权的用户">
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-actions">
+        <br>
+        <button id="data-auth-btn" class="btn btn-primary">授权</button>
+        <a href="$basePath/security/data-auth/detail" class="btn btn-info">查看已授权详情</a>
+    </div>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/security/dataAuth.js")
+</body>
+</html>

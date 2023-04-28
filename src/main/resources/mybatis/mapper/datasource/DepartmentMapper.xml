@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DepartmentMapper">
+    <resultMap id="DepartmentMap" type="Department">
+        <id property="id" column="id" />
+        <result property="dbname" column="dbname"/>
+        <result property="dbinstance" column="dbinstance"/>
+        <result property="username" column="username"/>
+
+        <result property="passwd" column="passwd"/>
+        <result property="team" column="team"/>
+        <result property="slowlog" column="slowlog"/>
+        <result property="sqlkill" column="sqlkill"/>
+
+    </resultMap>
+
+    <sql id="fields">id, `dbname`, `dbinstance`, `username`, `passwd`, `team`, `slowlog`, `sqlkill`</sql>
+
+    <select id="find" parameterType="int" resultMap="DepartmentMap">
+        SELECT <include refid="fields"/> FROM database_list WHERE id=#{id}
+    </select>
+
+    <select id="findAll" parameterType="int" resultMap="DepartmentMap">
+        SELECT <include refid="fields"/> FROM database_list ORDER BY `dbname` ASC
+    </select>
+
+    <select id="findByEnv" parameterType="string" resultMap="DepartmentMap">
+        SELECT <include refid="fields"/> FROM database_list WHERE env=#{env} ORDER BY `dbname` ASC
+    </select>
+
+    <select id="findByDbnameDbinstance" parameterType="map" resultMap="DepartmentMap">
+        SELECT <include refid="fields"/> FROM database_list WHERE dbname=#{dbname} AND dbinstance=#{dbinstance} ORDER BY `dbname` ASC
+    </select>
+
+    <insert id="add" parameterType="Department" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO database_list (<include refid="fields"/>)
+        VALUES (default, #{dbname}, #{dbinstance}, #{username}, #{passwd}, #{team}, #{slowlog}, #{sqlkill});
+    </insert>
+
+    <update id="update" parameterType="Department">
+        UPDATE database_list
+        SET `dbname`=#{dbname},`dbinstance`=#{dbinstance},username=#{username},passwd=#{passwd},team=#{team},slowlog=#{slowlog},sqlkill=#{sqlkill}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM database_list WHERE id=#{id}
+    </delete>
+</mapper>

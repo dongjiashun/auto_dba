@@ -1,0 +1,60 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "我的数据源")
+    #parse("include/head.vm")
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar2()
+    <ol class="breadcrumb">
+        <li><a href="$basePath/">主页</a></li>
+        <li class="active">我的数据源</li>
+    </ol>
+    <div class="toolbar">
+        <a href="$basePath/task/ds-apply" class="btn btn-info btn-sm">数据源申请</a>
+    </div>
+    #end
+    #@pageContent()
+    <div id="toolbar" class="clearfix">
+        <p class="lead pull-left"><i class="fa fa-database fa-fw"></i> 我的数据源&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        <div class="btn-group pull-left" data-toggle="buttons">
+            <label class="btn btn-default active">
+                <input type="radio" name="env" value="prod" autocomplete="off" checked>正式环境
+            </label>
+            <label class="btn btn-default">
+                <input type="radio" name="env" value="test" autocomplete="off">测试环境
+            </label>
+            <label class="btn btn-default">
+                <input type="radio" name="env" value="dev" autocomplete="off">开发环境
+            </label>
+        </div>
+    </div>
+    <table id="datasources" class="table table-striped"
+           data-toolbar="#toolbar"
+           data-page-list="[10,25,50]"
+           data-pagination="true"
+           data-search="true"
+           data-show-refresh="true"
+           data-sort-name="name"
+           data-sort-order="asc"
+           data-url="$basePath/ds/list?env=prod"
+           data-unique-id="id">
+        <thead>
+        <tr>
+            <th data-field="name" data-sortable="true">数据源名称</th>
+            <th data-field="type" data-searchable="false">数据库类型</th>
+            <th data-field="role">数据源角色</th>
+            <th data-field="auth" data-sortable="true" data-searchable="false" data-formatter="timeFormatter">授权时间</th>
+            <th data-field="op" data-searchable="false" data-formatter="opFormatter" data-width="60">操作</th>
+        </tr>
+        </thead>
+    </table>
+    <p class="text-warning small">修改数据源权限: 1. 删除数据源, 重新申请并说明需要的权限; 2. 找数据源owner进行修改权限</p>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/ds/ds.js")
+</body>
+</html>

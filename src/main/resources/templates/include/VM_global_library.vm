@@ -1,0 +1,33 @@
+#macro(pageContent)
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+            $!bodyContent
+            </div>
+        </div>
+    </div>
+</div>
+#end
+
+#macro(pageBar)
+<div id="page-bar" class="clearfix">
+    <ol class="breadcrumb">
+        <li><a href="$basePath/">主页</a></li>
+        <li class="active">$!bodyContent</li>
+    </ol>
+</div>
+#end
+#macro(pageBar1)
+<div id="page-bar" class="clearfix">
+    <ol class="breadcrumb">
+        <li><a href="$basePath/">主页</a></li>
+        $!bodyContent
+    </ol>
+</div>
+#end
+#macro(pageBar2)
+<div id="page-bar" class="clearfix">
+    $!bodyContent
+</div>
+#end

@@ -1,0 +1,65 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "Canal同步申请")
+    #parse("include/head.vm")
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()Canal同步申请#end
+    #@pageContent()
+    <p class="lead">
+        <i class="fa fa-random fa-fw"></i> Canal同步申请
+        <a class="text-muted small" target="_blank" href="$basePath/process_img/canal-apply.png" title="点击查看流程图"><i class="fa fa-file-image-o fa-fw"></i></a></p>
+    <hr>
+    <form id="canal-apply-form" action="#" method="post">
+        <div class="form-body" lang="zh-CN">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">环境</label>
+                        <select name="ds-env" class="form-control">
+                            <option value="prod">正式环境</option>
+                            <option value="test">测试环境</option>
+                            <option value="dev">开发环境</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label"><span class="text-danger">*</span> 数据源</label>
+                        <select name="ds-name" class="form-control" data-placeholder="请选择数据源">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label"><span class="text-danger">*</span> 表</label>
+                        <select name="ds-table" class="form-control" data-placeholder="请选择同步数据表">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label"><span class="text-danger">*</span> 申请理由</label>
+                        <textarea name="reason" class="form-control" rows="5"></textarea>
+                        <span class="help-block small">请概述主要用途,方便审核时做判断</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group text-danger form-msg"></div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">申请Canal同步</button>
+            <a href="$basePath/" class="btn btn-default">取消</a>
+        </div>
+    </form>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/task/canalApply.js")
+</body>
+</html>

@@ -1,0 +1,78 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "敏感数据授权详情")
+    #parse("include/head.vm")
+    $static.referMenu("/security/data-auth")
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar1()
+    <li><a href="$basePath/security/data-auth">敏感数据授权</a></li>
+    <li class="active">查看授权详情</li>
+    #end
+    #@pageContent()
+    <p class="lead"><i class="fa fa-user-secret fa-fw"></i> 敏感数据授权详情</p>
+    <hr>
+    <form id="auth-detail-form" action="#" method="post">
+        <div class="form-body" lang="zh-CN">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <select name="env" class="form-control">
+                            <option value="prod">正式环境</option>
+                            <option value="test">测试环境</option>
+                            <option value="dev">开发环境</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select name="datasource" class="form-control" data-placeholder="全部数据源">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="user" placeholder="全部授权人">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">查询</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <p class="auth-detail-toolbar">
+        <button id="auth-del-btn" class="btn btn-danger btn-sm" type="button" title="删除">
+            <i class="fa fa-times fa-fw"></i> 删除选中授权
+        </button>
+    </p>
+    <table id="auth-detail" class="table table-striped"
+           data-toolbar=".auth-detail-toolbar"
+           data-page-list="[10,20,50]"
+           data-click-to-select="true"
+           data-pagination="true"
+           data-side-pagination="server"
+           data-url="$basePath/security/data-auth/detail_data"
+           data-unique-id="id">
+        <thead>
+        <tr>
+            <th data-field="state" data-checkbox="true"></th>
+            <th data-field="user.username">用户</th>
+            <th data-field="security.dataSource.name">数据源</th>
+            <th data-field="security.table">表名</th>
+            <th data-field="security.column">字段名</th>
+            <th data-field="gmtCreate" data-formatter="timeFormatter">授权时间</th>
+        </tr>
+        </thead>
+    </table>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/security/dataAuthDetail.js")
+</body>
+</html>

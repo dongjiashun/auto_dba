@@ -1,0 +1,41 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "菜单管理")
+    #parse("include/head.vm")
+    <style type="text/css">
+        .CodeMirror {
+            border: 1px solid #ddd;
+            height: 380px;
+        }
+    </style>
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()菜单管理#end
+    #@pageContent()
+    <p class="lead"><i class="fa fa-list fa-fw"></i> 菜单管理</p>
+    <div class="alert alert-info" role="alert">
+        <strong>菜单配置说明:</strong>
+        <ul>
+            <li>菜单type有folder和menu两种类型</li>
+            <li>url可使用变量 $<strong>base</strong>, $<strong>username</strong></li>
+            <li>role标示菜单项需要对应的权限, 不需要权限该项可不写</li>
+            <li>icon所有可填值参考 <a class="alert-link" href="https://fortawesome.github.io/Font-Awesome/icons/" target="_blank">这里</a></li>
+        </ul>
+    </div>
+    <form id="menus-config-form">
+        <div class="form-group">
+            <textarea name="menus" class="form-control" rows="10">$!menusConfig</textarea>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">提交变更</button>
+        </div>
+    </form>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/system/menu.js")
+</body>
+</html>

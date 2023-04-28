@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DataSourceRoleMapper">
+    <resultMap id="DataSourceRoleMap" type="DataSourceRole">
+        <id property="id" column="id" />
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="order" column="order"/>
+    </resultMap>
+
+    <sql id="fields">`id`, `code`, `name`, `order`</sql>
+
+    <select id="findByCode" parameterType="string" resultMap="DataSourceRoleMap">
+        SELECT <include refid="fields"/> FROM datasource_role WHERE `code`=#{code}
+    </select>
+
+    <select id="findAll" resultMap="DataSourceRoleMap">
+        SELECT <include refid="fields"/> FROM datasource_role ORDER BY 'order' ASC
+    </select>
+</mapper>

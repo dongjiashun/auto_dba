@@ -1,0 +1,86 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "Canal同步申请详情")
+    #parse("include/head.vm")
+    $static.referMenu("/")
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+            border-bottom-width: 1px;
+        }
+    </style>
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()Canal同步申请详情#end
+    #@pageContent()
+        <p class="lead"><i class="fa fa-random fa-fw"></i> Canal同步申请详情</p>
+        <hr>
+        #parse("task/_info.vm")
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+            <thead>
+            <td>环境</td>
+            <td>数据源</td>
+            <td>审核状态</td>
+            <td>审核人</td>
+            <td>审核时间</td>
+            <td>审核备注</td>
+            </thead>
+            <tr>
+                <td>$static.env($process.taskBiz.entity.env)</td>
+                <td>$process.taskBiz.entity.sid</td>
+                <td>
+                    #if($process.taskBiz.entity.assessor)
+                        #if($process.taskBiz.entity.assessType != 0)
+                            <span class="label label-success">通过</span>
+                        #else
+                            <span class="label label-danger">未通过</span>
+                        #end
+                    #end
+                </td>
+                <td>$!process.taskBiz.entity.assessor</td>
+                <td>$!date.format($!process.taskBiz.entity.assessTime)</td>
+                <td>
+                    #if($process.taskBiz.entity.assessRemark && $process.taskBiz.entity.assessRemark.length() > 20)
+                        <span role="button" title="查看完成数据" data-info-large="true" data-info="$!process.taskBiz.entity.assessRemark">
+                            $display.truncate($!process.taskBiz.entity.assessRemark, 20)
+                            </span>
+                    #else
+                        $!process.taskBiz.entity.assessRemark
+                    #end
+                </td>
+            </tr>
+        </table>
+        </div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 text-right">数据同步表:</label>
+                <div class="col-sm-10">$!process.taskBiz.entity.table</div>
+            </div>
+        <div class="form-group">
+            <label class="col-sm-2 text-right">Client:</label>
+            <div class="col-sm-3">$!process.taskBiz.entity.client</div>
+            <label class="col-sm-2 text-right">输出名:</label>
+            <div class="col-sm-4">$!process.taskBiz.entity.target</div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 text-right">分区索引号:</label>
+            <div class="col-sm-3">$!process.taskBiz.entity.index</div>
+            <label class="col-sm-2 text-right">Key表达式:</label>
+            <div class="col-sm-4">$!process.taskBiz.entity.key</div>
+        </div>
+    </form>
+        <hr>
+        #parse("task/_activities.vm")
+        #parse("task/_footer.vm")
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/task/process.js")
+</body>
+</html>

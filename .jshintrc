@@ -1,0 +1,28 @@
+{
+  "curly": true,
+  "immed": true,
+  "indent": 4,
+  "latedef": "nofunc",
+  "maxlen": 160,
+  "newcap": true,
+  "noempty": true,
+  "nonew": true,
+  "trailing": true,
+  "undef": true,
+  "unused": true,
+  "asi": false,
+  "boss": true,
+  "expr": true,
+  "browser": true,
+  "devel": true,
+  "predef": [
+    "require",
+    "define",
+    "module",
+    "exports",
+
+    "$",
+    "_",
+    "base_path"
+  ]
+}

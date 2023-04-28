@@ -1,0 +1,49 @@
+<form id="ds-form" action="#" method="post">
+    <div class="form-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input name="id" type="hidden" value="{{=it.id || ''}}">
+                    <select name="env" class="form-control">
+                        <option value="prod" {{? it.env == 'prod' }}selected{{?}}>正式环境</option>
+                        <option value="test" {{? it.env == 'test' }}selected{{?}}>测试环境</option>
+                        <option value="dev" {{? it.env == 'dev' }}selected{{?}}>开发环境</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">属性配置</div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-3 control-label"><span class="text-danger">*</span> 实例：</label>
+                                <div class="col-sm-9"><input name="dbinstance" type="text" value="{{=it.dbinstance || ''}}" class="form-control"></div>
+                            </div>
+
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-3 control-label"><span class="text-danger">*</span> 用户名：</label>
+                                <div class="col-sm-9"><input name="username" type="text" value="{{=it.username || ''}}" class="form-control"></div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-3 control-label"><span class="text-danger">*</span> 密码：</label>
+                                <div class="col-sm-9"><input name="passwd" type="text" value="{{=it.passwd || ''}}" class="form-control"></div>
+                            </div>
+
+                             <div id="params" class="form-group form-group-sm">
+                                {{ for(var key in it.parameters) { }}
+                                    <label class="col-sm-3 control-label"> 参数：</label>
+                                    <div class="col-sm-9">
+                                        <input  name="key" type="text" value="{{=key || ''}}" class="form-control">
+                                        <input  name="value" type="text" value="{{=it.parameters[key] || ''}}" class="form-control">
+                                    </div>
+                                {{ } }}
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div id="ds-form-msg" class="text-danger"></div>
+</form>

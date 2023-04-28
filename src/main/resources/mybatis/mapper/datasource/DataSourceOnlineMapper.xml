@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DataSourceOnlineMapper">
+    <resultMap id="DataSourceOnlineMap" type="DataSourceOnline">
+        <id property="id" column="id" />
+        <result property="dataSource.id" column="datasource_id"/>
+
+        <result property="lastChangeId" column="last_change_id" />
+        <result property="lastChangeTime" column="last_change_time" />
+
+        <result property="onlineChangeId" column="online_change_id" />
+        <result property="onlineTime" column="online_time" />
+    </resultMap>
+
+    <sql id="fields">`id`, `datasource_id`, last_change_id, last_change_time, online_change_id, online_time</sql>
+
+    <select id="findByDataSource" parameterType="int" resultMap="DataSourceOnlineMap">
+        SELECT <include refid="fields"/> FROM datasource_online WHERE `datasource_id`=#{id}
+    </select>
+
+    <insert id="add" parameterType="DataSourceOnline" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO datasource_online (<include refid="fields"/>)
+        VALUES (default, #{dataSource.id}, #{lastChangeId}, #{lastChangeTime}, #{onlineChangeId}, #{onlineTime})
+    </insert>
+
+    <update id="update" parameterType="DataSourceOnline">
+        UPDATE datasource_online
+        SET `last_change_id`=#{lastChangeId}, `last_change_time`=#{lastChangeTime},`online_change_id`=#{onlineChangeId},`online_time`=#{onlineTime}
+        WHERE id=#{id}
+    </update>
+</mapper>

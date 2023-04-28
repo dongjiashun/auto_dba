@@ -1,0 +1,18 @@
+<div id="user-roles" data-user="{{=it.id}}">
+    <p class="user-roles-toolbar">
+        <button class="btn btn-success btn-sm" type="button" name="roles-save" title="删除">
+            <i class="fa fa-floppy-o fa-fw"></i> 保存修改
+        </button>
+    </p>
+    <table class="table table-striped"
+           data-toolbar=".user-roles-toolbar"
+           data-unique-id="id">
+        <thead>
+        <tr>
+            <th data-field="checked" data-checkbox="true"></th>
+            <th data-field="code">角色</th>
+            <th data-field="name">角色名称</th>
+        </tr>
+        </thead>
+    </table>
+</div>

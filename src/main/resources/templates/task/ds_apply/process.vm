@@ -1,0 +1,81 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "数据源申请详情")
+    #parse("include/head.vm")
+    $static.referMenu("/")
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+            border-bottom-width: 1px;
+        }
+    </style>
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()数据源申请详情#end
+    #@pageContent()
+        <p class="lead"><i class="fa fa-database fa-fw"></i> 数据源申请详情</p>
+        <hr>
+        #parse("task/_info.vm")
+        <p class="lead2">子任务</p>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <td>环境</td>
+                    <td>数据源</td>
+                    <td>申请原因</td>
+                    <td>审核状态</td>
+                    <td>审核人</td>
+                    <td>审核时间</td>
+                    <td>审核备注</td>
+                </thead>
+                #foreach($dsApply in $process.taskBiz.entity)
+                    <tr>
+                        <td>$static.env($dsApply.dsEnv)</td>
+                        <td>$dsApply.dsName</td>
+                        <td>
+                            #if($dsApply.reason.length() > 20)
+                                <span role="button" title="查看完成数据" data-info-large="true" data-info="$dsApply.reason">
+                                    $display.truncate($dsApply.reason, 23)
+                                </span>
+                            #else
+                                $dsApply.reason
+                            #end
+                        </td>
+                        <td>
+                            #if($dsApply.assessor)
+                                #if($dsApply.assessType == 1)
+                                    <span class="label label-success">通过</span>
+                                #else
+                                    <span class="label label-danger">未通过</span>
+                                #end
+                            #end
+                        </td>
+                        <td>$!dsApply.assessor</td>
+                        <td>$!date.format($!dsApply.assessTime)</td>
+                        <td>
+                            #if($dsApply.assessRemark && $dsApply.assessRemark.length() > 20)
+                                <span role="button" title="查看完成数据" data-info-large="true" data-info="$!dsApply.assessRemark">
+                                    $display.truncate($!dsApply.assessRemark, 20)
+                                </span>
+                            #else
+                                $!dsApply.assessRemark
+                            #end
+                        </td>
+                    </tr>
+                #end
+            </table>
+        </div>
+        <hr>
+        #parse("task/_activities.vm")
+        #parse("task/_footer.vm")
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/task/process.js")
+</body>
+</html>

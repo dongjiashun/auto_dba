@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OperateLogMapper">
+    <resultMap id="OperateLogMap" type="OperateLog">
+        <id property="id" column="id" />
+        <result property="env" column="env"/>
+        <result property="sid" column="sid"/>
+        <result property="operator" column="operator"/>
+        <result property="type" column="type"/>
+        <result property="typeString" column="type_string"/>
+        <result property="ip" column="ip"/>
+        <result property="content" column="content"/>
+        <result property="time" column="time"/>
+    </resultMap>
+
+    <sql id="fields">`id`, `env`, `sid`, `operator`, `type`, `type_string`, `ip`, `content`, `time`</sql>
+
+    <insert id="add" parameterType="OperateLog" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO operate_log(<include refid="fields"/>)
+        VALUES (default, #{env}, #{sid}, #{operator}, #{type}, #{typeString}, #{ip}, #{content}, #{time})
+    </insert>
+
+    <select id="query" resultMap="OperateLogMap">
+        SELECT <include refid="fields"/> FROM operate_log
+        <where>
+            <if test="env != null">
+                AND `env` = #{env}
+            </if>
+            <if test="sid != null">
+                AND `sid` = #{sid}
+            </if>
+            <if test="user != null">
+                AND `operator` = #{user}
+            </if>
+            <if test="from != null">
+                AND `time` &gt;= #{from}
+            </if>
+            <if test="to != null">
+                AND `time` &lt;= #{to}
+            </if>
+        </where>
+        ORDER BY `time` DESC
+    </select>
+</mapper>

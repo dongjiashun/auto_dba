@@ -1,0 +1,152 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "SQL查询")
+    #parse("include/head.vm")
+    <style type="text/css">
+        .col-md-2{
+            width:auto;
+        }
+        .CodeMirror {
+            height: 180px;
+        }
+        .ctrl {
+            margin-top: 20px;
+        }
+        #sql-tab .close {
+            font-size: 16px;
+            margin-left: 3px;
+        }
+        #sql-tab>li:first-child, #sql-tab>li:last-child {
+            font-weight: bold;
+        }
+        #sql-his {
+            font-size: .85em;
+        }
+        #sql-his th {
+            font-weight: normal;
+        }
+        .results {
+            font-size: 0.85em;
+            background-color: #fff;
+            padding: 0 18px;
+        }
+    </style>
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar2()
+    <ol class="breadcrumb">
+        <li><a href="$basePath/">主页</a></li>
+        <li class="active">SQL查询</li>
+    </ol>
+    <div class="toolbar">
+        <a tabindex="0" class="btn btn-sm btn-info" role="button" data-toggle="popover" data-trigger="focus" data-placement="left"
+           title="sql query syntax" data-html="true"
+           data-content="<ul class='list-unstyled' style='width: 400px'><li>1. select</li><li>2. show tables</li><li>3. desc tableName</li><li>4. show create table tableName</li></ul>">
+            <i class="fa fa-question"></i> help
+        </a>
+    </div>
+    #end
+    #@pageContent()
+    <div lang="zh-CN">
+        <div class="row">
+            <div class="col-md-3">
+                <select name="ds-env" class="form-control">
+                    <option value="prod">正式环境</option>
+                    <option value="test">测试环境</option>
+                    <option value="dev">开发环境</option>
+                </select>
+            </div>
+            <div class="col-md-5">
+                <select name="ds-name" class="form-control" data-placeholder="请选择数据源">
+                </select>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <ul id="sql-tab" class="nav nav-tabs" role="tablist" style="font-size: .85em">
+            <li role="presentation" class="active">
+                <a href="#sql-query" role="tab">
+                    SQL查询
+                    <span id="add-sql-tab" role="button" title="创建SQL查询"><i class="fa fa-plus fa-fw"></i></span>
+                </a>
+            </li>
+
+            <li role="presentation" id="table-struct-tab">
+                <a href="#table-struct" role="tab" style="color: #057163">
+                    <b>查看表结构</b>
+                </a>
+            </li>
+
+            <li role="presentation" id="sql-his-tab">
+                <a href="#sql-his" role="tab">
+                    历史查询
+                    <span id="refresh-sql-his" role="button" title="刷新历史查询"><i class="fa fa-refresh fa-fw"></i></span>
+                </a>
+            </li>
+
+        </ul>
+        <div id="sql-tab-content" class="tab-content" style="margin-top: -1px">
+            <div role="tabpanel" class="tab-pane active" id="sql-query">
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="sql-his">
+                <table id="datasources" class="table table-striped"
+                       data-page-list="[10,25,50]"
+                       data-pagination="true"
+                       data-side-pagination="server"
+                       data-url="$basePath/sql/select/history"
+                       data-unique-id="id">
+                    <thead>
+                    <tr>
+                        <th data-field="gmtCreate" data-formatter="sqlDateTimeFormatter">执行时间</th>
+                        <th data-field="dataSource.name">数据源</th>
+                        <th data-field="execTime">耗时(ms)</th>
+                        <th data-field="count">影响行数</th>
+                        <th data-field="sql" data-formatter="sqlBigTextFormatter">SQL</th>
+                        <th data-field="id" data-formatter="sqlHisOpFormatter" data-width="50">操作</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="table-struct">
+                <div class="form-body" lang="zh-CN">
+                    <div class="row">
+                        <div class="col-md-0" style="visibility: hidden">
+                            <select name="ds-type" class="col-md-0">
+                                <option value="table">表</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <select name="ds-list" class="col-md-4 form-control " data-placeholder="CHOOSE TABLE NAME TEST BY QQ">
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <button class="form-control btn btn-success" id="select-cur">查询表数据</button>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="form-control btn btn-primary" id="select-new">实时表结构</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-warning small">注意：显示的表结构信息缓存时间是30分钟</div>
+                <div class="struct"></div>
+            </div>
+        </div>
+        <p id="sql-query-costTime">
+        </p>
+    </div>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/sql/sql.js")
+##    $static.javascript("js/module/sql/table.js")
+##    $static.javascript("js/module/ds/ds.js")
+</body>
+</html>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scanPeriod="60 seconds">
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+    <!-- 读取spring配置信息 -->
+    <springProperty scope="context" name="LOG_ROOT_DIR" source="LOG_ROOT_DIR" defaultValue="${LOG_ROOT_DIR}"/>
+
+    <property name="LOG_HOME" value="${LOG_ROOT_DIR}/dms-server"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%date{ISO8601} %-5level [%thread] %logger{32} - %message%n</pattern>
+        </layout>
+    </appender>
+
+    <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/dms-server.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/dms-server-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date{ISO8601} %-5level [%thread] %logger{32} - %message%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.apache.velocity" level="OFF"/>
+
+    <root>
+        <level value="warn"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="rollingFile"/>
+    </root>
+</configuration>

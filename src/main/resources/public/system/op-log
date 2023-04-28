@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--[if lt IE 10]>
+<meta http-equiv="refresh" content="0;URL='/old_browser'" />
+<![endif]-->
+<title>操作日志 - DMS</title>
+<script type="text/javascript">try{var base_path="";}catch(e){}</script>
+<link rel="stylesheet" href="/static/css/base.css?v=20180319" type="text/css">
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/">
+            
+            <span>数据管理系统</span>
+            
+        </a>
+    </div>
+    <ul class="nav navbar-top-links navbar-right">
+        <li>
+            <a class="btn-success" target="_blank" href="https://confluence.maopp.cn/pages/viewpage.action?pageId=11240256">必读SQL规范</a>
+        </li>
+        <li>
+            <a class="btn-info" target="_blank" href="https://confluence.maopp.cn/pages/viewpage.action?pageId=11240796">平台使用指南</a>
+        </li>
+        <li>
+            <a class="btn-info" target="_blank" href="http://192.168.11.49:12295/gateway/upload">ALL IN ONE</a>
+        </li>
+
+        <li>
+            <a class="toggle-fullscreen dropdown-toggle" href="javascript:;"><i class="fa fa-fw fa-arrows-alt"></i></a>
+        </li>
+        <li>
+            <a id="notify" class="dropdown-toggle" href="/" title="我的任务">
+                <i class="fa fa-bell-o fa-fw"></i>
+            </a>
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;" aria-expanded="false">
+                <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+                <div id="userinfo" class="hidden">
+                    <p>员工号：05031</p>
+                    <p>姓名：董佳顺</p>
+                    <p>手机号：18757589409</p>
+                    <p>邮箱：dongjiashun@dianwoba.com</p>
+                    <p>创建时间：2017-10-17 12:51:45</p>
+                </div>
+                <li><a href="javascript:;" class="userinfo"><strong>董佳顺</strong></a></li>
+                <li class="divider"></li>
+                <li><a href="javascript:;" class="userinfo"><i class="fa fa-user fa-fw"></i> 我的信息</a></li>
+                <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> 退出</a></li>
+            </ul>
+        </li>
+    </ul>
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li><a href="/"><i class="fa fa-calendar-check-o fa-fw"></i> 我的任务</a></li>
+                <li>
+                    <a href="javascript:;"><i class="fa fa-sitemap fa-fw"></i> 新建任务<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="/task/ds-apply">数据源申请</a></li>
+                        <li><a href="/task/data-export">数据导出</a></li>
+                        <li><a href="/task/data-change">数据变更</a></li>
+                        <li><a href="/task/struct-change">结构变更</a></li>
+                        
+                         
+                    </ul>
+                </li>
+                                <li><a href="/task/all"><i class="fa fa-calendar fa-fw"></i> 所有任务</a></li>
+                
+                <li class="nav-heading"><span>数据查询</span></li>
+                <li><a href="/sql/query"><i class="fa fa-search fa-fw"></i> SQL查询</a></li>
+                <li>
+                    <a href="javascript:;"><i class="fa fa-table fa-fw"></i> 数据源查询<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="/ds/manage">我的数据源</a></li>
+                        <li><a href="/ds/struct" target="_blank">查询表结构</a></li>
+                    </ul>
+                </li>
+                
+                
+                                    <li class="nav-heading"><span>系统管理</span></li>
+                                            <li>
+                            <a href="javascript:;"><i class="fa fa-database fa-fw"></i> 数据源管理<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="/datasource/manage">数据源管理</a></li>
+                                <li><a href="/datasource/department/manage">数据源部门管理</a></li>
+                                <li><a href="/datasource/parameters/manage">数据源实例参数管理</a></li>
+                                <li><a href="/datasource/proxy/manage">数据源代理</a></li>
+                            </ul>
+                        </li>
+                                                            <li>
+                        <a href="javascript:;"><i class="fa fa-credit-card fa-fw"></i> 敏感数据管理<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="/security/data">敏感数据配置</a></li>
+                            <li><a href="/security/data-auth">敏感数据授权</a></li>
+                        </ul>
+                    </li>
+                                                                <li>
+                            <a href="javascript:;"><i class="fa fa-user fa-fw"></i> 用户管理<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="/user/manage">用户管理</a></li>
+                                <li><a href="/user/role/manage">角色管理</a></li>
+                            </ul>
+                        </li>
+                                                                <li><a href="/system/op-log"><i class="fa fa-list-alt fa-fw"></i> 操作日志</a></li>
+                        <li>
+                            <a href="javascript:;"><i class="fa fa-cogs fa-fw"></i> 系统配置<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="/system/config">系统参数</a></li>
+                                <li><a href="/system/menu/manage">菜单管理</a></li>
+                            </ul>
+                        </li>
+                                                    <li class="nav-heading"><span>系统菜单</span></li>
+                                <!--
+                <li><a class="toggle-soon" href="javascript:;"><i class="fa fa-bar-chart fa-fw"></i> 系统报表</a></li>
+                -->
+            </ul>
+        </div>
+    </div>
+</nav>    <div id="page-bar" class="clearfix">
+    <ol class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li class="active">操作日志</li>
+    </ol>
+</div>
+    <div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <p class="lead"><i class="fa fa-file-text-o fa-fw"></i> 操作日志</p>
+    <hr>
+    <form id="log-form" action="#" method="post">
+        <div class="form-body" lang="zh-CN">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select name="env" class="form-control">
+                            <option value="">全部环境</option>
+                            <option value="prod">正式环境</option>
+                            <option value="test">测试环境</option>
+                            <option value="dev">开发环境</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select name="sid" class="form-control" data-placeholder="全部数据源">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select name="user" class="form-control" data-placeholder="操作人">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class='input-group'>
+                            <span class="input-group-addon">开始时间</span>
+                            <input name="from" type='text' class="form-control"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class='input-group'>
+                            <span class="input-group-addon">结束时间</span>
+                            <input name="to" type='text' class="form-control"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-actions text-right">
+                        <button type="submit" class="btn btn-primary">查询</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <table id="log-table" class="table table-striped"
+           data-page-list="[15,50,100]"
+           data-page-size="15"
+           data-pagination="true"
+           data-side-pagination="server"
+           data-url="/system/op-log-data"
+           data-unique-id="id">
+        <thead>
+        <tr>
+            <th data-field="env" data-formatter="envFormatter">环境</th>
+            <th data-field="sid">SID</th>
+            <th data-field="typeString">操作类型</th>
+            <th data-field="operator">操作人</th>
+            <th data-field="time" data-formatter="timeFormatter">操作时间</th>
+            <th data-field="ip">IP</th>
+            <th data-field="content" data-formatter="textFormatter">详情</th>
+        </tr>
+        </thead>
+    </table>
+    
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+    <div class="pull-right">
+        2018-03-19
+    </div>
+    <div>
+        <strong>Copyright</strong> Dianwoba Company <a href="/manage" target="_blank">©</a> 2015-2017
+    </div>
+</div>
+<script type="text/javascript" src="/static/js/base.js?v=20180319"></script>
+    <script type="text/javascript" src="/static/js/module/system/opLog.js?v=20180319"></script>
+
+</body>
+</html>

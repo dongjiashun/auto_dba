@@ -1,0 +1,72 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #parse("include/head.vm")
+    <style type="text/css">
+        .table {
+            font-size: .9em;
+        }
+    </style>
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar()我的任务#end
+    #@pageContent()
+    <p id="task-pending-toolbar" class="lead2"><i class="fa fa-calendar-check-o fa-fw"></i> 等待我处理的任务</p>
+    <table id="task-pending" class="table table-striped"
+           data-toolbar="#task-pending-toolbar"
+           data-page-list="[5,10,20]"
+           data-page-size="5"
+           data-pagination="true"
+           data-search="true"
+           data-show-refresh="true"
+           data-sort-name="taskTime"
+           data-sort-order="desc"
+           data-url="$basePath/task/pending"
+           data-unique-id="id">
+        <thead>
+        <tr>
+            <th data-field="taskDsEnv" data-formatter="envFormatter">环境</th>
+            <th data-field="taskBiz.type" data-sortable="true" data-formatter="taskTypeFormatter">任务类型</th>
+            <th data-field="taskName" data-sortable="true">任务名称</th>
+            <th data-field="taskBiz.startUser.username" data-sortable="true">工号</th>
+            <th data-field="taskBiz.startUser.nickname" data-sortable="true">姓名</th>
+            <th data-field="taskTime" data-sortable="true" data-searchable="false" data-formatter="simpleTimeFormatter">提交时间</th>
+            <th data-field="taskDsName" data-formatter="textFormatter">数据源</th>
+            <th data-field="taskBiz.explain" data-searchable="false" data-formatter="textFormatter">说明</th>
+            <th data-field="op" data-searchable="false" data-formatter="pendingOpFormatter" data-width="80">操作</th>
+        </tr>
+        </thead>
+    </table>
+    <hr>
+    <p id="process-my-toolbar" class="lead2"><i class="fa fa-calendar-plus-o fa-fw"></i> 我提交的任务</p>
+    <table id="process-my" class="table table-striped"
+           data-toolbar="#process-my-toolbar"
+           data-page-list="[5,10,20]"
+           data-page-size="5"
+           data-pagination="true"
+           data-side-pagination="server"
+           data-show-refresh="true"
+           data-url="$basePath/task/my"
+           data-unique-id="id">
+        <thead>
+        <tr>
+            <th data-field="taskBiz.type" data-formatter="taskTypeFormatter">任务类型</th>
+            <th data-field="taskBiz.startTime" data-searchable="false" data-formatter="timeFormatter">提交时间</th>
+            <th data-field="taskBiz.endTime" data-searchable="false" data-formatter="timeFormatter">结束时间</th>
+            <th data-field="status" data-formatter="taskStatusFormatter">状态</th>
+            <th data-field="taskBiz.info" data-formatter="textFormatter">数据源</th>
+            <th data-field="taskBiz.explain" data-searchable="false" data-formatter="textFormatter">说明</th>
+            <th data-field="op" data-searchable="false" data-formatter="myOpFormatter" data-width="50">操作</th>
+        </tr>
+        </thead>
+    </table>
+    <hr>
+    <p class="lead2"><a class="text-muted" title="点击查看我参与的历史任务" href="$basePath/task/related" data-toggle="tooltip"><i class="fa fa-calendar-o fa-fw"></i> 我参与的历史任务</a></p>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/index.js")
+</body>
+</html>

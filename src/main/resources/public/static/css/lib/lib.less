@@ -1,0 +1,205 @@
+@import "variables";
+
+@enableRadius: true;
+
+// 兼容性
+// inline-block
+.inline-block() {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
+// inline-block
+.inline-block(@width, @height) {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  width: @width;
+  height: @height;
+}
+
+.min-height(@width) {
+  min-height: @width;
+  height: auto;
+  _height: @width;
+}
+
+// 透明度
+.opacity(@opacity) {
+  //-moz-opacity: @opacity / 100;
+  filter: ~"alpha(opacity=@{opacity})";
+  opacity: @opacity / 100;
+}
+
+// Webkit-style focus
+// ------------------
+.tab-focus() { // Default
+  outline: thin dotted #333; // Webkit
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+// IE7 likes to collapse whitespace on either side of the inline-block elements.
+// Ems because we're attempting to match the width of a space character. Left
+// version is for form buttons, which typically come after other elements, and
+// right version is for icons, which come before. Applying both is ok, but it will
+// mean that space between those elements will be .6em (~2 space characters) in IE7,
+// instead of the 1 space in other browsers.
+.ie7-restore-left-whitespace() {
+  *margin-left: .3em;
+
+  &:first-child {
+    *margin-left: 0;
+  }
+}
+
+// Reset filters for IE
+.reset-gradient-filter() {
+  filter: e(%("progid:DXImageTransform.Microsoft.gradient(enabled = false)"));
+}
+
+.ie9-reset-radius() when (@enableRadius = true) {
+  border-radius: 0 \9;
+}
+.ie9-reset-radius() {
+}
+
+// Border Radius
+.border-radius(@radius) when (@enableRadius = true) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+.border-radius(@radius) { }
+
+// Single Corner Border Radius
+.border-top-left-radius(@radius) when (@enableRadius = true) {
+  -webkit-border-top-left-radius: @radius;
+  -moz-border-radius-topleft: @radius;
+  border-top-left-radius: @radius;
+}
+.border-top-left-radius(@radius){ }
+
+.border-top-right-radius(@radius) when (@enableRadius = true) {
+  -webkit-border-top-right-radius: @radius;
+  -moz-border-radius-topright: @radius;
+  border-top-right-radius: @radius;
+}
+.border-top-right-radius(@radius) { }
+
+.border-bottom-right-radius(@radius) when (@enableRadius = true) {
+  -webkit-border-bottom-right-radius: @radius;
+  -moz-border-radius-bottomright: @radius;
+  border-bottom-right-radius: @radius;
+}
+.border-bottom-right-radius(@radius) { }
+
+.border-bottom-left-radius(@radius) when (@enableRadius = true) {
+  -webkit-border-bottom-left-radius: @radius;
+  -moz-border-radius-bottomleft: @radius;
+  border-bottom-left-radius: @radius;
+}
+.border-bottom-left-radius(@radius) {}
+
+// Single Side Border Radius
+.border-top-radius(@radius) {
+  .border-top-right-radius(@radius);
+  .border-top-left-radius(@radius);
+}
+
+.border-right-radius(@radius) {
+  .border-top-right-radius(@radius);
+  .border-bottom-right-radius(@radius);
+}
+
+.border-bottom-radius(@radius) {
+  .border-bottom-right-radius(@radius);
+  .border-bottom-left-radius(@radius);
+}
+
+.border-left-radius(@radius) {
+  .border-top-left-radius(@radius);
+  .border-bottom-left-radius(@radius);
+}
+
+// box-shadow
+.box-shadow(@shadowA, @shadowB:X, ...) {
+  @props: ~`"@{arguments}".replace(/[\[\]]|\,\sX/g, '')`;
+  -webkit-box-shadow: @props;
+  -moz-box-shadow: @props;
+  box-shadow: @props;
+}
+
+#gradient {
+  .horizontal(@startColor: #555, @endColor: #333) {
+    background-color: @endColor;
+    background-image: -moz-linear-gradient(left, @startColor, @endColor); // FF 3.6+
+    background-image: -webkit-gradient(linear, 0 0, 100% 0, from(@startColor), to(@endColor)); // Safari 4+, Chrome 2+
+    background-image: -webkit-linear-gradient(left, @startColor, @endColor); // Safari 5.1+, Chrome 10+
+    background-image: -o-linear-gradient(left, @startColor, @endColor); // Opera 11.10
+    background-image: linear-gradient(to right, @startColor, @endColor); // Standard, IE10
+    background-repeat: repeat-x;
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=1)",argb(@startColor), argb(@endColor))); // IE9 and down
+  }
+  .vertical(@startColor: #555, @endColor: #333) {
+    background-color: mix(@startColor, @endColor, 60%);
+    background-image: -moz-linear-gradient(top, @startColor, @endColor); // FF 3.6+
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@startColor), to(@endColor)); // Safari 4+, Chrome 2+
+    background-image: -webkit-linear-gradient(top, @startColor, @endColor); // Safari 5.1+, Chrome 10+
+    background-image: -o-linear-gradient(top, @startColor, @endColor); // Opera 11.10
+    background-image: linear-gradient(to bottom, @startColor, @endColor); // Standard, IE10
+    background-repeat: repeat-x;
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",argb(@startColor), argb(@endColor))); // IE9 and down
+  }
+}
+
+// 快捷样式lib
+// size
+.size(@height, @width) {
+  width: @width;
+  height: @height;
+}
+
+.square(@size) {
+  .size(@size, @size);
+}
+
+// Center-align a block level element
+.center-block() {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#font() {
+  .shorthand(@size: @baseFontSize, @weight: normal, @lineHeight: @baseLineHeight) {
+    font-size: @size;
+    font-weight: @weight;
+    line-height: @lineHeight;
+  }
+}
+
+// 功能
+.close() {
+  position: absolute;
+  .inline-block;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  color: #888;
+  font-weight: 500;
+  font-style: normal;
+  &:hover {
+    text-decoration: none;
+    color: #333;
+  }
+}
+
+// Dividers (basically an hr) within dropdowns and nav lists
+.nav-divider(@color: #e5e5e5, @margin: @baseFontSize/2) {
+  display: block;
+  line-height: 1px; // height 触发 ie 67 haslayout
+  margin: @margin 0;
+  padding: 0;
+  background-color: @color;
+}

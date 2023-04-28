@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SecurityDataAuthMapper">
+    <resultMap id="SecurityDataAuthMap" type="SecurityDataAuth">
+        <id property="id" column="id" />
+        <result property="security.id" column="security_id"/>
+        <result property="user.username" column="user_name"/>
+        <result property="gmtCreate" column="gmt_create"/>
+    </resultMap>
+
+    <sql id="fields">id, security_id, user_name, gmt_create</sql>
+    <sql id="sau_fields">sau.id, sau.security_id, sau.user_name, sau.gmt_create</sql>
+    
+    <select id="findAll" resultMap="SecurityDataAuthMap">
+        SELECT <include refid="fields"/> FROM security_data_auth ORDER BY gmt_create DESC
+    </select>
+
+    <select id="findByUser" parameterType="string" resultMap="SecurityDataAuthMap">
+        SELECT <include refid="fields"/> FROM security_data_auth WHERE user_name=#{username} ORDER BY gmt_create DESC
+    </select>
+
+    <select id="findBySecUser" parameterType="map" resultMap="SecurityDataAuthMap">
+        SELECT <include refid="fields"/> FROM security_data_auth WHERE security_id=#{secId} AND user_name=#{username}
+    </select>
+
+    <select id="findByDsUser" parameterType="map" resultMap="SecurityDataAuthMap">
+        SELECT <include refid="sau_fields"/> FROM security_data_auth sau, security_data sa
+        WHERE sau.security_id=sa.id AND sa.datasource_id=#{datasource}
+        <if test="username != null">
+          AND sau.user_name=#{username}
+        </if>
+    </select>
+
+    <insert id="add" parameterType="SecurityDataAuth">
+        INSERT INTO security_data_auth(<include refid="fields"/>)
+        VALUES (default, #{security.id}, #{user.username}, #{gmtCreate})
+    </insert>
+
+    <delete id="delete" parameterType="list">
+        DELETE FROM security_data_auth
+        WHERE id in <foreach collection="list" item="item" open="(" separator="," close=")">#{item}</foreach>
+    </delete>
+</mapper>

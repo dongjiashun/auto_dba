@@ -1,0 +1,58 @@
+#set($basePath = $request.contextPath)
+#set($user = $sec.principal)
+<!DOCTYPE html>
+<html>
+<head>
+    #set($pageTitle = "数据源代理")
+    #parse("include/head.vm")
+    <style type="text/css">
+        .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+            color: #333;
+            font-weight: bold;
+            border-color: #ddd;
+            background-color: #f3f3f3;
+        }
+        .fixed-table-toolbar .bars, .fixed-table-toolbar .columns, .fixed-table-toolbar .search {
+            margin-top: 0;
+        }
+        th {
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    #parse("include/navbar.vm")
+    #@pageBar2()
+    <ol class="breadcrumb">
+        <li><a href="$basePath/">主页</a></li>
+        <li class="active">数据源代理</li>
+    </ol>
+    <div class="toolbar">
+        <a id="proxy-add" href="javascript:;" class="btn btn-info btn-sm"><i class="fa fa-plus-square-o"></i> 添加代理</a>
+    </div>
+    #end
+    #@pageContent()
+    <div class="row">
+        <div id="proxies" class="col-md-3">
+            <p class="lead"><i class="fa fa-cubes fa-fw"></i> 数据源代理</p>
+            #if($proxies.size() > 0)
+                <div class="list-group">
+                    #foreach($proxy in $proxies)
+                        <a id="proxy-$proxy.id" href="javascript:;" class="list-group-item" data-id="$proxy.id">
+                            <div class="proxy-name">$proxy.name</div>
+                            <div class="text-muted small proxy-host">$proxy.host</div>
+                        </a>
+                    #end
+                </div>
+            #else
+                <div class="desc text-muted">还没有配置任何数据源代理, 请点击右上角按钮进行添加</div>
+            #end
+        </div>
+        <div id="proxy-datasources" class="col-md-9">
+        </div>
+    </div>
+    #end
+    #parse("include/footer.vm")
+    $static.javascript("js/module/datasource/proxy.js")
+</body>
+</html>

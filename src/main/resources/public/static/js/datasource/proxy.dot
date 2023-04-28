@@ -1,0 +1,27 @@
+<div id="toolbar" class="clearfix mb">
+    <div class="btn-group pull-left">
+        <a name="update" data-id="{{=it.id}}" class="btn btn-success btn-sm" href="javascript:;" title="更新代理"><i class="fa fa-pencil-square-o"></i> 更新</a>
+        {{? it.dataSources.length < 1}}<a name="delete" data-id="{{=it.id}}" class="btn btn-warning btn-sm" href="javascript:;" title="删除代理"><i class="fa fa-trash-o"></i> 删除</a>{{?}}
+    </div>
+</div>
+{{? it.dataSources.length > 0}}
+    <table class="table table-striped"
+           data-toolbar="#toolbar"
+           data-page-list="[10,25,50]"
+           data-pagination="true"
+           data-search="true"
+           data-show-columns="true">
+        <thead>
+        <tr>
+            <th data-field="name" data-sortable="true">数据源名称</th>
+            <th data-field="env" data-sortable="true">环境</th>
+            <th data-field="type" data-searchable="false">数据库类型</th>
+            <th data-field="sid" data-sortable="true" data-searchable="false">SID</th>
+            <th data-field="host" data-searchable="false">IP地址</th>
+            <th data-field="port" data-searchable="false">端口号</th>
+        </tr>
+        </thead>
+    </table>
+{{??}}
+    <div class="desc text-muted">数据源代理还没有配置代理的数据源, 请至数据源管理页面添加数据源代理配置</div>
+{{?}}
